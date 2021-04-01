@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/shopping-cart.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+        integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <!-- /CSS -->
+</head>
+
+<body>
+    <!-- NAVBAR -->
+    <div class="navbar-sticky bg-light">
+        <div class="navbar navbar-expand-lg navbar-light">
+            <div class="container">
+                <a href="" class="navbar-brand fw-bold d-none-d-sm-block flex-shrink-0">Crealink Digital<span
+                        class="text-primary">.</span></a>
+                <div class="input-group d-none d-lg-flex mx-4">
+                    <input type="text" class="form-control rounded-end" type="text" placeholder="Search for courses">
+                </div>
+                <div class="navbar-toolbar d-flex flex-shrink-0 align-items-center">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarCollapse"><span class="navbar-toggler-icon"></span></button>
+
+                    <div class="dropdown navbar-tool">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Categories
+                        </a>
+                        <ul class="dropdown-menu categories" aria-labelledby="navbarDropdownMenuLink">
+                            <div class="row">
+                                <div class="col-6">
+                                    <li><a class="dropdown-item" href="#">Action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                    <li><a class="dropdown-item" href="#">Action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                </div>
+                                <div class="col-6">
+                                    <li><a class="dropdown-item" href="#">Action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                    <li><a class="dropdown-item" href="#">Action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                </div>
+                            </div>
+                        </ul>
+                    </div>
+
+                    <a href="" class="nav-link navbar-tool d-none d-lg-flex">My course</a>
+
+                    <a href="" class="nav-link navbar-tool d-none d-lg-flex">My learning</a>
+
+                    <a href="#" class="nav-link navbar-tool d-none d-lg-flex">
+                        <i class="fas fa-shopping-cart">
+                            <span class="badge rounded-pill badge-notification bg-danger">1</span>
+                        </i>
+                    </a>
+
+                    <div class="dropdown navbar-tool">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <img src="https://mdbootstrap.com/img/Photos/Avatars/img (31).jpg" class="rounded-circle"
+                                height="30" alt="" loading="lazy" />
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#"><span class="fas fa-user-circle"></span> Account</a>
+                            </li>
+                            <li><a class="dropdown-item" href="#"><span class="fas fa-credit-card"></span> Payment
+                                    options</a></li>
+                            <li><a class="dropdown-item" href="#"><span class="fas fa-sign-out-alt"></span> Logout</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="navbar-collapse collapse" id="navbarCollapse">
+                <!-- Search-->
+                <div class="input-group d-lg-none my-3"><i
+                        class="ci-search position-absolute top-50 start-0 translate-middle-y text-muted fs-base ms-3"></i>
+                    <input class="form-control rounded-start" type="text" placeholder="Search for courses">
+                </div>
+                <!-- Primary menu-->
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a href="" class="nav-link">My course</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="" class="nav-link">My learning</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /NAVBAR -->
+
+    <!-- CONTAINER -->
+    <div class="container col-12" style="padding: 20px;">
+        
+        <div class="row shopping-cart-container" style="background-color: white;">
+
+                <div class="col-8 learnings-list" style="padding: 10px;">
+    
+                    <h3>Shopping Cart</h3>
+                    <hr>
+    
+                    <div class="card" style="width: 720px; margin-top: 10px;">
+                        <div class="row no-gutters">
+                            <div class="col-sm-5">
+                                <img class="card-img"
+                                    src="../src/image/angular.png"
+                                    alt="Suresh Dasari Card">
+                            </div>
+                            <div class="col-sm-7">
+                                <div class="card-body">
+                                    <h5 class="card-title">Desarrollando en Angular 10</h5>
+                                    <p class="card-text">by Leo Gutierritos</p>
+                                    <div class="col-12" style="text-align: end;">
+                                        <div class="row">
+                                            <div class="col-6" style="text-align: start;">
+                                                <p class="card-text"><small class="cost">$1500 MX</small></p>
+                                            </div>
+                                            <div class="col-6" style="text-align: end;">
+                                                <a href="#" class="btn btn-danger">Delete</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="card" style="width: 720px; margin-top: 10px;">
+                        <div class="row no-gutters">
+                            <div class="col-sm-5">
+                                <img class="card-img"
+                                    src="../src/image/inteligencia-artificial.png"
+                                    alt="Suresh Dasari Card">
+                            </div>
+                            <div class="col-sm-7">
+                                <div class="card-body">
+                                    <h5 class="card-title">Artificial Intelligence</h5>
+                                    <p class="card-text">by Karla Aguilar</p>
+                                    <div class="col-12" style="text-align: end;">
+                                        <div class="row">
+                                            <div class="col-6" style="text-align: start;">
+                                                <p class="card-text"><small class="cost">$1500 MX</small></p>
+                                            </div>
+                                            <div class="col-6" style="text-align: end;">
+                                                <a href="#" class="btn btn-danger">Delete</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    
+                </div>
+                <div class="col-4 total-to-pay" style="padding: 10px;">
+                    <h3>Total:</h3>
+                    <hr>
+                    <h1>$3000 MX</h1>
+                    <div class="col-12" style="margin-bottom: 20px;">
+                        <button type="button" id="btn-check-out" class="btn btn-primary" style="width: 100%;">Check out</button>
+                    </div>
+                    <hr>
+                    <h3>Card:</h3>
+                    <form class="credit-card-div">
+                        <div class="col-12">
+                            <input type="number" class="form-control" name="" id="card-number" placeholder="Enter Card Number">
+                        </div>
+                        <div class="row">
+                            <div class="col-4 credit-card-inp">
+                                <span class="help-block text-muted small-font">Expiry Month</span>
+                                <input type="number" minlength="0" max="2" name="" id="card-mouth" class="form-control" placeholder="MM">
+                            </div>
+                            <div class="col-4 credit-card-inp">
+                                <span class="help-block text-muted small-font">Expiry Year</span>
+                                <input type="number" name="" id="card-year" class="form-control" placeholder="YYYY">
+                            </div>
+                            <div class="col-4 credit-card-inp">
+                                <span class="help-block text-muted small-font">CCV</span>
+                                <input type="number" name="" id="card-ccv" class="form-control" placeholder="CCV">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <input type="text" class="form-control" name="" id="card-titular" placeholder="Name On The Card">
+                        </div>
+                        <div class="col-12 credit-card-inp">
+                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                            <label class="form-check-label" for="exampleCheck1">Save details for fast payments.</label>
+                        </div>
+                    </form>
+                </div>
+        </div>
+        
+    </div>
+    <!-- /CONTAINER -->
+
+    <!-- JS -->
+    <script src="js/bootstrap.min.js"></script>
+    <script
+    src="https://code.jquery.com/jquery-3.5.1.min.js"
+    integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+    crossorigin="anonymous"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="js/validations-shopping-cart.js"></script>
+    <script src="js/notifications-shopping-cart.js"></script>
+    <!-- /JS -->
+</body>
+
+</html>
