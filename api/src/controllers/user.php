@@ -40,7 +40,7 @@
 
         }
         
-        public function getUser($id) {
+        public function getUserById($id) {
             $sql = "SELECT * FROM users WHERE id = ".$id."";
             try{
                 $db = new db();
@@ -94,6 +94,29 @@
     
             }catch(PDOException $e){
                 echo '{"error" : {"text":'.$e->getMessage().'}';
+            }
+        }
+
+        public static function getUserByEmailPassword($email, $password){
+            $sql = "SELECT * FROM users WHERE email = '".$email."' AND userPassword = '".$password."'";
+
+            try{
+                $db = new db(); //Nueva instancia a la DB
+                $db = $db->connection(); //Se hace la conexión
+                $result = $db->query($sql); // Se ejecuta el query
+
+                if($result){
+                    $users = array();
+                    while ($user = $result->fetch_assoc()) { //Se recorre el arreglo con cada resultado de la consulta
+                        $users[] = $user;
+                    }
+                    return $users; //Se regresa el array con todos los resultados
+                }else{
+                    echo json_encode("No existe este usuario en la DB."); //a
+                    return null;
+                }
+            }catch(PDOException $e){
+                echo '{"error" : {"text":'.$e->getMessage().'}'; //a
             }
         }
     }
