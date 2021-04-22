@@ -29,7 +29,7 @@
                 if (!$result) {
                     echo "Problema al hacer un query: " . $db->error;								
                 } else {
-                    echo '{"message" : { "status": "200" , "text": "Usuario creado satisfactoriamente." }';
+                    echo '{"message" : { "status": "200" , "text": "Usuario creado satisfactoriamente." } }';
                 }
 
                 $result = null;
@@ -116,7 +116,7 @@
                     return null;
                 }
             }catch(PDOException $e){
-                echo '{"error" : {"text":'.$e->getMessage().'}'; //a
+                echo '{"error" : {"text":'.$e->getMessage().'} }'; //a
             }
         }
     }

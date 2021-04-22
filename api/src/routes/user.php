@@ -25,7 +25,7 @@
         }
     });
 
-    $app->get('/getUserByEmailPassword', function(Request $request, Response $response){
+    $app->post('/getUserByEmailPassword', function(Request $request, Response $response){
         if($request->getParam('email') && $request->getParam('userPassword')) {
             $email = $request->getParam('email');
             $password = $request->getParam('userPassword');
@@ -62,5 +62,4 @@
             echo '{"message" : { "status": "500" , "text": "Sin usuarios registrados." }';
         }
     });
-
 ?>
