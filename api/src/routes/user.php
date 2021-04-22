@@ -8,13 +8,14 @@
     require 'C:/xampp/htdocs/projects/Proyecto_PWCI/api/src/controllers/user.php';
     require 'C:/xampp/htdocs/projects/Proyecto_PWCI/api/src/models/user.php';
 
+    /*              TODOS LOS INSERT         */
     $app->post('/addUser', function(Request $request, Response $response){
         if($request->getParam('userName') && $request->getParam('email') && $request->getParam('userPassword') && $request->getParam('firstName') && $request->getParam('lastName')) {
             if($request->getParam('secondName')) {
-                $user = new UserModel(null, $request->getParam('email'), $request->getParam('userPassword'), $request->getParam('userName'), 
+                $user = new UserModelReduced(null, $request->getParam('email'), $request->getParam('userPassword'), $request->getParam('userName'), 
                 $request->getParam('firstName'), $request->getParam('secondName'), $request->getParam('lastName'));
             } else {
-                $user = new UserModel(null, $request->getParam('email'), $request->getParam('userPassword'), $request->getParam('userName'), 
+                $user = new UserModelReduced(null, $request->getParam('email'), $request->getParam('userPassword'), $request->getParam('userName'), 
                 $request->getParam('firstName'), null, $request->getParam('lastName'));
             }
 
@@ -25,10 +26,24 @@
         }
     });
 
+    /*          TODOS LOS UPDATE        */
+    $app->post('/updateUser', function(Request $request, Response $response){
+        if($request->getParam('userName') && $request->getParam('email')){
+            $userID = $request->getParam('id');
+            UserController::updateUser($request->getParam('id'), $request->getParam('email'), $request->getParam('userPassword'), $request->getParam('userName'), 
+            $request->getParam('firstName'), $request->getParam('secondName'), $request->getParam('lastName'), $request->getParam('birthday'), $request->getParam('country'), 
+            $request->getParam('state'), $request->getParam('city'), $request->getParam('postalCode'), $request->getParam('profilePicture'));
+        }else{
+            echo '{"message" : { "status": "500" , "text": "No jala el server." }';
+        }
+    });
+    
+    /*          TODOS LOS SELECT        */
     $app->post('/getUserByEmailPassword', function(Request $request, Response $response){
         if($request->getParam('email') && $request->getParam('userPassword')) {
             $email = $request->getParam('email');
             $password = $request->getParam('userPassword');
+
             $user = UserController::getUserByEmailPassword($email, $password);
             if($user){
                 echo json_encode($user);
@@ -40,7 +55,22 @@
         }
     });
 
-    $app->get('/getUserById/{id}', function(Request $request, Response $response){
+    $app->get('/getUserByUsername', function(Request $request, Response $response){
+        if($request->getParam('username')){
+            $username = $request->getParam('username');
+
+            $user = UserController::getUserByUsername($username);
+            if($user){
+                echo json_encode($user);
+            }else{
+                echo '{"message" : { "status": "404" , "text": "No se puede identificar este usuario." }';
+            }
+        }else{
+            echo '{"message" : { "status": "500" , "text": "Server error" }';
+        }
+    });
+
+    $app->post('/getUserById/{id}', function(Request $request, Response $response){
         if($request->getAttribute('id')) {
             $user = UserController::getUserById($request->getAttribute('id'));
             if($user) {

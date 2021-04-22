@@ -4,7 +4,8 @@
 
     class UserController {
 
-        public function addUser($user) {
+        /*          TODOS LOS INSERT            */
+        public static function addUser($user) {
             
             $email = $user->getEmail(); 
             $userPassword = $user->getUserPassword();
@@ -39,7 +40,48 @@
             }
 
         }
-        
+
+        /*          TODOS LOS UPDATE            */
+
+        public static function updateUser($id, $email, $userPassword, $userName, $firstName, $secondName, $lastName,$birthday, $country, $state, $city, $postalCode, $profilePicture){
+            
+            $userName = $userName ? $userName : 'null';
+            $firstName = $firstName ? $firstName : 'null';
+            $secondName = $secondName ? $secondName : 'null';
+            $lastName = $lastName ? $lastName : 'null';
+            $birthday = $birthday ? $birthday : 'null';
+            $country = $country ? $country : 'null';
+            $state = $state ? $state : 'null';
+            $city = $city ? $city : 'null';
+            $postalCode = $postalCode ? $postalCode : 0;
+            $profilePicture = $profilePicture ? $profilePicture : 'null';
+            
+
+            if($id){
+                $sql = "UPDATE users SET email = '".$email."', userPassword = '".$userPassword."', username = '".$userName."', firstName = '".$firstName."',
+                        secondName = '".$secondName."', lastNames = '".$lastName."', birthday = '".$birthday."', country = '".$country."', `state` = '".$state."',
+                        city = '".$city."', postalCode = ".$postalCode.", profilePicture = '".$profilePicture."' WHERE id = ".$id.";";
+            }
+            echo "<br>".$sql."<br>";
+            try{
+                $db = new db();
+                $db = $db->connection();
+                $result = $db->query($sql);
+
+                if (!$result) {
+                    echo "Problema al hacer un query: " . $db->error;								
+                } else {
+                    echo '{"message" : { "status": "200" , "text": "Usuario modificado satisfactoriamente." }';
+                }
+
+                $result = null;
+                $db = null;
+            }catch(PDOException $e){
+                echo '{"error" : {"text":'.$e->getMessage().'}';
+            }
+        }
+
+        /*          TODOS LOS SELECT            */
         public function getUserById($id) {
             $sql = "SELECT * FROM users WHERE id = ".$id."";
             try{
@@ -66,7 +108,7 @@
             }    
         }
 
-        public function getAllUsers() {
+        public static function getAllUsers() {
             $sql = "SELECT * FROM users";
     
             try{
@@ -117,6 +159,29 @@
                 }
             }catch(PDOException $e){
                 echo '{"error" : {"text":'.$e->getMessage().'} }'; //a
+            }
+        }
+        
+        public static function getUserByUsername($username){
+            $sql = "SELECT * FROM users WHERE username = '".$username."'";
+
+            try{
+                $db = new db();
+                $db = $db->connection();
+                $result = $db->query($sql);
+
+                if($result){
+                    $users = array();
+                    while ($user = $result->fetch_assoc()) {
+                        $users[] = $user;
+                    }
+                    return $users;
+                }else{
+                    echo json_encode("No existe este usuario en la DB.");
+                    return null;
+                }
+            }catch(PDOException $e){
+                echo '{"error" : {"text":'.$e->getMessage().'}';
             }
         }
     }
