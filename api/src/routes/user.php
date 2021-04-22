@@ -22,7 +22,7 @@
             UserController::addUser($user);
 
         } else {
-            echo '{"message" : { "status": "500" , "text": "Server error" }';
+            echo '{"message" : { "status": "500" , "text": "Server error" } }';
         }
     });
 
@@ -34,7 +34,7 @@
             $request->getParam('firstName'), $request->getParam('secondName'), $request->getParam('lastName'), $request->getParam('birthday'), $request->getParam('country'), 
             $request->getParam('state'), $request->getParam('city'), $request->getParam('postalCode'), $request->getParam('profilePicture'));
         }else{
-            echo '{"message" : { "status": "500" , "text": "No jala el server." }';
+            echo '{"message" : { "status": "500" , "text": "No jala el server." } }';
         }
     });
     
@@ -48,10 +48,10 @@
             if($user){
                 echo json_encode($user);
             }else{
-                echo '{"message" : { "status": "404" , "text": "No se puede identificar este usuario." }';
+                echo '{"message" : { "status": "404" , "text": "No se puede identificar este usuario." } }';
             }
         } else {
-            echo '{"message" : { "status": "500" , "text": "Server error" }';
+            echo '{"message" : { "status": "500" , "text": "Server error" } }';
         }
     });
 
@@ -63,10 +63,10 @@
             if($user){
                 echo json_encode($user);
             }else{
-                echo '{"message" : { "status": "404" , "text": "No se puede identificar este usuario." }';
+                echo '{"message" : { "status": "404" , "text": "No se puede identificar este usuario." } }';
             }
         }else{
-            echo '{"message" : { "status": "500" , "text": "Server error" }';
+            echo '{"message" : { "status": "500" , "text": "Server error" } }';
         }
     });
 
@@ -76,10 +76,10 @@
             if($user) {
                 echo json_encode($user);
             } else {
-                echo '{"message" : { "status": "404" , "text": "No se puede identificar este usuario." }';
+                echo '{"message" : { "status": "404" , "text": "No se puede identificar este usuario." } }';
             }
         } else {
-            echo '{"message" : { "status": "400" , "text": "Bad Request" }';
+            echo '{"message" : { "status": "400" , "text": "Bad Request" } }';
         }
     });
 
@@ -87,9 +87,9 @@
         $users = UserController::getAllUsers();
         if($users != null) {
             echo json_encode($users);
-            //echo '{"message" : { "status": "200" , "text": "Satisfactory process" }';
+            //echo '{"message" : { "status": "200" , "text": "Satisfactory process" } }';
         } else {
-            echo '{"message" : { "status": "500" , "text": "Sin usuarios registrados." }';
+            echo '{"message" : { "status": "500" , "text": "Sin usuarios registrados." } }';
         }
     });
 ?>

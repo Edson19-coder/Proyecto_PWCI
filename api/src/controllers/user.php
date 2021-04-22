@@ -36,7 +36,7 @@
                 $result = null;
                 $db = null;
             }catch(PDOException $e){
-                echo '{"error" : {"text":'.$e->getMessage().'}';
+                echo '{"error" : {"text":'.$e->getMessage().'} }';
             }
 
         }
@@ -71,13 +71,13 @@
                 if (!$result) {
                     echo "Problema al hacer un query: " . $db->error;								
                 } else {
-                    echo '{"message" : { "status": "200" , "text": "Usuario modificado satisfactoriamente." }';
+                    echo '{"message" : { "status": "200" , "text": "Usuario modificado satisfactoriamente." } }';
                 }
 
                 $result = null;
                 $db = null;
             }catch(PDOException $e){
-                echo '{"error" : {"text":'.$e->getMessage().'}';
+                echo '{"error" : {"text":'.$e->getMessage().'} }';
             }
         }
 
@@ -104,7 +104,7 @@
                 $db = null;
     
             }catch(PDOException $e){
-                echo '{"error" : {"text":'.$e->getMessage().'}';
+                echo '{"error" : {"text":'.$e->getMessage().'} }';
             }    
         }
 
@@ -135,7 +135,7 @@
                 $db = null;
     
             }catch(PDOException $e){
-                echo '{"error" : {"text":'.$e->getMessage().'}';
+                echo '{"error" : {"text":'.$e->getMessage().'} }';
             }
         }
 
@@ -181,7 +181,7 @@
                     return null;
                 }
             }catch(PDOException $e){
-                echo '{"error" : {"text":'.$e->getMessage().'}';
+                echo '{"error" : {"text":'.$e->getMessage().'} }';
             }
         }
     }
