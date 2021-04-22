@@ -1,6 +1,7 @@
 <?php
 
-    class UserModel {
+    class UserModelBase{
+
         private $id;
         private $email;
         private $userPassword;
@@ -15,14 +16,11 @@
         private $postalCode;
         private $profilePicture;
 
-        public function __construct($id, $email, $userPassword, $userName, $firstName, $secondName, $lastName) {
+        public function __construct($id, $email, $userPassword, $userName) {
             $this->id = $id;
             $this->email = $email;
             $this->userPassword = $userPassword;
             $this->userName = $userName;
-            $this->firstName = $firstName;
-            $this->secondName = $secondName;
-            $this->lastName = $lastName;
         }
 
         public function setId($id) {
@@ -79,6 +77,88 @@
 
         public function setLastName($lastName) {
             $this->lastName = $lastName;
+        }
+
+        public function getBirthday(){
+            return $this->birthday;
+        }
+
+        public function setBirthday($birthday){
+            $this->birthday = $birthday;
+        }
+
+        public function getCountry(){
+            return $this->country;
+        }
+
+        public function setCountry($country){
+            $this->country = $country;
+        }
+
+        public function getState(){
+            return $this->state;
+        }
+
+        public function setState($state){
+            $this->state = $state;
+        }
+
+        public function getCity(){
+            return $this->city;
+        }
+
+        public function setCity($city){
+            $this->city = $city;
+        }
+
+        public function getPostalCode(){
+            return $this->postalCode;
+        }
+
+        public function setPostalCode($postalCode){
+            $this->postalCode = $postalCode;
+        }
+
+        public function getProfilePicture(){
+            return $this->profilePicture;
+        }
+
+        public function setProfilePicture($profilePicture){
+            $this->profilePicture = $profilePicture;
+        }
+
+    }
+
+    class UserModelReduced extends UserModelBase{
+        
+        public function __construct($id, $email, $userPassword, $userName, $firstName, $secondName, $lastName) {
+            $this->id = $id;
+            $this->email = $email;
+            $this->userPassword = $userPassword;
+            $this->userName = $userName;
+            $this->firstName = $firstName;
+            $this->secondName = $secondName;
+            $this->lastName = $lastName;
+        }
+
+    }
+
+    class UserModelExtended extends UserModelBase{
+
+        public function __construct($id, $email, $userPassword, $userName, $firstName, $secondName, $lastName, $birthday, $country, $state, $city, $postalCode, $profilePicture) {
+            $this->id = $id;
+            $this->email = $email;
+            $this->userPassword = $userPassword;
+            $this->userName = $userName;
+            $this->firstName = $firstName;
+            $this->secondName = $secondName;
+            $this->lastName = $lastName;
+            $this->birthday = $birthday;
+            $this->country = $country;
+            $this->state = $state;
+            $this->city = $city;
+            $this->postalCode = $postalCode;
+            $this->profilePicture = $profilePicture;
         }
 
     }
