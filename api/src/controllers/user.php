@@ -76,7 +76,8 @@
 
         /*          TODOS LOS SELECT            */
         public function getUserById($id) {
-            $sql = "SELECT * FROM users WHERE id = ".$id."";
+            
+            $sql = "CALL `proc_profile_user`(".$id.")";
             try{
                 $db = new db();
                 $db = $db->connection();
