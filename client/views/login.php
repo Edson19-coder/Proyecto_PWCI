@@ -34,23 +34,23 @@
                 </div>
                 <div class="col-12" style="display: flex; justify-content: center; padding: 20px;">
                     <form class="col-10">
-                        <div class="mb-3">
-                            <label for="InputEmailLogin" class="form-label">Email address</label>
-                            <input type="email" class="form-control" id="InputEmailLogin"
-                                aria-describedby="emailHelp">
-                            <span class="hide" id="span-email" style="color: red">*Email is required</span>
-                        </div>
-                        <div class="mb-3">
-                            <label for="InputPasswordLogin" class="form-label">Password</label>
-                            <input type="password" minlength="8" class="form-control" id="InputPasswordLogin">
-                            <span class="hide" id="span-password" style="color: red">*Password is required</span>
-                        </div>
-                        <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                            <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                        </div>
-                        <button id="btn-sign-in" type="submit" class="col-12 btn btn-primary" style="margin-bottom: 20px ;">Sign In</button>
-                        <a href="register.php" class="register-a" style="margin-top: 10px; color: black; text-decoration: none;">Register</a>
+                    <div class="mb-3">
+                        <label for="InputEmailLogin" class="form-label">Email address</label>
+                        <input type="email" class="form-control" id="InputEmailLogin"
+                            aria-describedby="emailHelp">
+                        <span class="hide" id="span-email" style="color: red">*Email is required</span>
+                    </div>
+                    <div class="mb-3">
+                        <label for="InputPasswordLogin" class="form-label">Password</label>
+                        <input type="password" minlength="8" class="form-control" id="InputPasswordLogin">
+                        <span class="hide" id="span-password" style="color: red">*Password is required</span>
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                        <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                    </div>
+                    <button id="btn-sign-in" type="submit" class="col-12 btn btn-primary" style="margin-bottom: 20px ;">Sign In</button>
+                    <a href="register.php" class="register-a" style="margin-top: 10px; color: black; text-decoration: none;">Register</a>
                     </form>
                 </div>
             </div>
@@ -81,7 +81,7 @@
             $('#btn-sign-in').on('click', (event) => {
                 event.preventDefault();
 
-                var user = new User($('#InputEmailLogin').val(), $('#InputPasswordLogin').val());
+                var user = new UserLogin($('#InputEmailLogin').val(), $('#InputPasswordLogin').val());
                 
                 getUserByEmailPassword(user);
             });

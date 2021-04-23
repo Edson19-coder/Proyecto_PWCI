@@ -9,7 +9,7 @@
     <!-- CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/navbar.css">
-    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/profile.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
         integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -27,8 +27,71 @@
 
     <!-- Content -->
 
-    <div class="container col-12 text-center" style="padding: 20px;">
-        <h1>Hol</h1> 
+    <div class="container col-12 text-center" style="padding: 30px;">
+
+        <div class="profile-content">
+            <div class="col-12">
+                <img id="user-image-view" src="https://mdbootstrap.com/img/Photos/Avatars/img (31).jpg" class="rounded-circle" height="200" alt="" loading="lazy" />
+            </div>
+            <div class="col-12" style="padding: 20px;">
+                <h1 id="user-name-view"></h1>
+            </div>
+            <div class="col-4" style="margin-left: auto; margin-right: auto;">
+                <div class="row">
+                    <div class="col-6">
+                        <h4 id="user-username-view" >@</h4>
+                    </div>
+                    <div class="col-6">
+                        <h4 id="user-rol-view">Instructor</h4>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MY COURSES -->
+            <div class="home most-new col-12" style="padding: 10px;">
+                <div class="col-12 title text-center">
+                    <h3>My courses</h3>
+                    <hr>
+                </div>
+
+                <div class="col-12 in-progress-learning" style="padding: 10px;">
+
+                    <div class="row" style="display: flex; justify-content:start;">
+
+
+                    </div>
+
+                </div>
+
+                <div class="card-footer" style="text-align: right;">
+                    <a href="#">See more</a>
+                </div>
+            </div>
+            <!-- /MY COURSES  -->
+
+            <!-- MY LEARNINGS -->
+            <div class="home most-new col-12" style="padding: 10px;">
+                <div class="col-12 title text-center">
+                    <h3>My learnings</h3>
+                    <hr>
+                </div>
+
+                <div class="col-12 in-progress-learning" style="padding: 10px;">
+
+                    <div class="row" style="display: flex; justify-content:start;">
+
+
+                    </div>
+
+                </div>
+
+                <div class="card-footer" style="text-align: right;">
+                    
+                </div>
+            </div>
+            <!-- /MY LEARNINGS  -->
+
+        </div>
     </div>
 
     <!-- /Content -->
@@ -42,6 +105,43 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script src="js/notifications.js"></script>
     <!-- /JS -->
+
+    <script type="module">
+         import { GLOBAL } from '../services/GLOBAL.js';
+
+        $(document).ready( () => {
+            var userId = getParameterByName('user');
+
+            getUserById(userId)
+        });
+
+        function getParameterByName(name) {
+            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec(location.search);
+            return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+
+        function getUserById(userId) {
+
+            $.ajax({
+            url: GLOBAL.url + "/getUserById/" + userId,
+            async: true,
+			type: 'POST',
+			dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+			success: function(user) {
+                console.log(user);
+                $('#user-name-view').append(user.firstName + " " + user.lastNames);
+                $('#user-username-view').append(user.username);
+			},
+			error: function(x, y, z) {
+				alert("Error en la api: " + x + y + z);				
+            }
+			});
+        }
+        
+    </script>
 </body>
 
 </html>

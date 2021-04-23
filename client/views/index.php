@@ -27,6 +27,7 @@
 
     <!-- Content -->
 
+    <?php if(isset($_SESSION['email'])) { ?>
     <!-- WELCOME BACK -->
     <div class="container col-12" style="padding: 0px 60px;">
         <div class="home welcome col-12">
@@ -37,7 +38,7 @@
                 </div>
                 <div class="text-welcome col-12 col-xl-9" style="display: flex; align-items: center;">
                     <div class="col-12">
-                        <h1>Welcome back <span class="user-name">Edson</span></h1>
+                        <h1>Welcome back <span class="user-name"><?php echo $_SESSION['firstName'] ?></span></h1>
                         <p>Let´s learn something new today.</p>
                     </div>
                 </div>
@@ -117,7 +118,7 @@
 
     </div>
     <!-- /IN PROGRESS -->
-
+    <?php } ?>
     <!-- NEWEST -->
     <div class="home most-new col-12" style="padding: 10px;">
         <div class="col-12 title text-center">

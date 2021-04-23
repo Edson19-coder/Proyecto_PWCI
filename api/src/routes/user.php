@@ -12,15 +12,12 @@
     $app->post('/addUser', function(Request $request, Response $response){
         if($request->getParam('userName') && $request->getParam('email') && $request->getParam('userPassword') && $request->getParam('firstName') && $request->getParam('lastName')) {
             if($request->getParam('secondName')) {
-                $user = new UserModelReduced(null, $request->getParam('email'), $request->getParam('userPassword'), $request->getParam('userName'), 
-                $request->getParam('firstName'), $request->getParam('secondName'), $request->getParam('lastName'));
+                UserController::addUser($request->getParam('email'), $request->getParam('userPassword'), $request->getParam('userName'), $request->getParam('firstName'), 
+                $request->getParam('secondName'), $request->getParam('lastName'));
             } else {
-                $user = new UserModelReduced(null, $request->getParam('email'), $request->getParam('userPassword'), $request->getParam('userName'), 
-                $request->getParam('firstName'), null, $request->getParam('lastName'));
+                UserController::addUser($request->getParam('email'), $request->getParam('userPassword'), $request->getParam('userName'), $request->getParam('firstName'), 
+                null, $request->getParam('lastName'));
             }
-
-            UserController::addUser($user);
-
         } else {
             echo '{"message" : { "status": "500" , "text": "Server error" } }';
         }
@@ -74,6 +71,19 @@
             }
         }else{
             echo '{"message" : { "status": "500" , "text": "Server error" } }';
+        }
+    });
+
+    $app->post('/getUserById', function(Request $request, Response $response){
+        if($request->getParam('id')) {
+            $user = UserController::getUserById($request->getParam('id'));
+            if($user) {
+                echo json_encode($user);
+            } else {
+                echo '{"message" : { "status": "404" , "text": "No se puede identificar este usuario." } }';
+            }
+        } else {
+            echo '{"message" : { "status": "400" , "text": "Bad Request" } }';
         }
     });
 

@@ -57,7 +57,7 @@
                                     height="30" alt="" loading="lazy" />
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="profile.php"><span class="fas fa-user-circle"></span> Account</a>
+                                <li><a class="dropdown-item" href="settings.php"><span class="fas fa-user-circle"></span> Account</a>
                                 </li>
                                 <li><a class="dropdown-item" href="#"><span class="fas fa-credit-card"></span> Payment
                                         options</a></li>

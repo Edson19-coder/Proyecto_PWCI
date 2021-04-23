@@ -5,23 +5,16 @@
     class UserController {
 
         /*          TODOS LOS INSERT            */
-        public static function addUser($user) {
-            
-            $email = $user->getEmail(); 
-            $userPassword = $user->getUserPassword();
-            $userName = $user->getUserName();
-            $firstName = $user->getFirstName();
-            $secondName = $user->getSecondName();
-            $lastName = $user->getLastName();
+        public static function addUser($email, $userPassword, $userName, $firstName, $secondName, $lastName) {
 
-            if($user->getSecondName()) {
+            if($secondName) {
                 $sql = "INSERT INTO `users`(`email`, `userPassword`, `username`, `firstName`, `secondName`, `lastNames`) 
                 VALUES ('".$email."','".$userPassword."','".$userName."','".$firstName."','".$secondName."','".$lastName."')";
             } else {
                 $sql = "INSERT INTO `users`(`email`, `userPassword`, `username`, `firstName`, `lastNames`) 
                 VALUES ('".$email."','".$userPassword."','".$userName."','".$firstName."','".$lastName."')";
             }
-
+            
             try{
                 $db = new db();
                 $db = $db->connection();
@@ -45,16 +38,16 @@
 
         public static function updateUser($id, $email, $userPassword, $userName, $firstName, $secondName, $lastName,$birthday, $country, $state, $city, $postalCode, $profilePicture){
             
-            $userName = $userName ? $userName : 'null';
-            $firstName = $firstName ? $firstName : 'null';
-            $secondName = $secondName ? $secondName : 'null';
-            $lastName = $lastName ? $lastName : 'null';
-            $birthday = $birthday ? $birthday : 'null';
-            $country = $country ? $country : 'null';
-            $state = $state ? $state : 'null';
-            $city = $city ? $city : 'null';
+            $userName = $userName ? $userName : null;
+            $firstName = $firstName ? $firstName : null;
+            $secondName = $secondName ? $secondName : null;
+            $lastName = $lastName ? $lastName : null;
+            $birthday = $birthday ? $birthday : null;
+            $country = $country ? $country : null;
+            $state = $state ? $state : null;
+            $city = $city ? $city : null;
             $postalCode = $postalCode ? $postalCode : 0;
-            $profilePicture = $profilePicture ? $profilePicture : 'null';
+            $profilePicture = $profilePicture ? $profilePicture : null;
             
 
             if($id){
@@ -62,7 +55,7 @@
                         secondName = '".$secondName."', lastNames = '".$lastName."', birthday = '".$birthday."', country = '".$country."', `state` = '".$state."',
                         city = '".$city."', postalCode = ".$postalCode.", profilePicture = '".$profilePicture."' WHERE id = ".$id.";";
             }
-            echo "<br>".$sql."<br>";
+            
             try{
                 $db = new db();
                 $db = $db->connection();
