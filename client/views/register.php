@@ -19,71 +19,9 @@
 
 <body>
     <!-- NAVBAR -->
-    <div class="navbar-sticky bg-light">
-        <div class="navbar navbar-expand-lg navbar-light">
-            <div class="container">
-                <a href="" class="navbar-brand fw-bold d-none-d-sm-block flex-shrink-0">Crealink Digital<span
-                        class="text-primary">.</span></a>
-                <div class="input-group d-none d-lg-flex mx-4">
-                    <input type="text" class="form-control rounded-end" type="text" placeholder="Search for courses">
-                </div>
-                <div class="navbar-toolbar d-flex flex-shrink-0 align-items-center">
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#navbarCollapse"><span class="navbar-toggler-icon"></span></button>
-
-                    <div class="dropdown navbar-tool">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Categories
-                        </a>
-                        <ul class="dropdown-menu categories" aria-labelledby="navbarDropdownMenuLink">
-                            <div class="row">
-                                <div class="col-6">
-                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                </div>
-                                <div class="col-6">
-                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                </div>
-                            </div>
-                        </ul>
-                    </div>
-
-                    <a href="" class="nav-link navbar-tool d-none d-lg-flex btn-login">Log In</a>
-
-                    <a href="" class="nav-link navbar-tool d-none d-lg-flex btn-register btn">Register</a>
-
-                </div>
-            </div>
-        </div>
-        <div class="container">
-            <div class="navbar-collapse collapse" id="navbarCollapse">
-                <!-- Search-->
-                <div class="input-group d-lg-none my-3"><i
-                        class="ci-search position-absolute top-50 start-0 translate-middle-y text-muted fs-base ms-3"></i>
-                    <input class="form-control rounded-start" type="text" placeholder="Search for courses">
-                </div>
-                <!-- Primary menu-->
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a href="" class="nav-link">Log In</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="" class="nav-link">Register</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
+    <?php 
+        include 'navbar.php';
+    ?>
     <!-- /NAVBAR -->
 
     <!-- CONTENT -->
@@ -132,7 +70,7 @@
                             <span class="hide" id="span-confirm-password" style="color: red">*Confirm password is required</span>
                         </div>
                         <button type="submit" id="btn-sign-up" class="col-12 btn btn-primary" style="margin-bottom: 20px ;">Sign Up</button>
-                        <a href="#" class="login-a" style="margin-top: 10px; color: black; text-decoration: none;">Log In</a>
+                        <a href="login.php" class="login-a" style="margin-top: 10px; color: black; text-decoration: none;">Log In</a>
                     </form>
                 </div>
             </div>
@@ -157,7 +95,11 @@
 
         $(document).ready( () => {
 
-            $('#btn-sign-up').on("click",function(event){
+            <?php if(isset($_SESSION['email'])) { ?>
+                window.location.replace("index.php");
+            <?php } ?>
+
+            $('#btn-sign-up').on('click', (event) => {
                 event.preventDefault();
 
                 var user = new User($('#InputUserRegister').val(), $('#InputNameRegister').val(), $('#InputSecondNameRegister').val(), 

@@ -21,7 +21,7 @@ a.nav-link{
     color: black !important;
 }
 
-a.nav-link:hover{
+.nav-link:hover{
     color: var(--main-color) !important;
 }
 
@@ -38,4 +38,14 @@ a.nav-link:hover{
 .btn.btn-primary:hover {
     background-color: #3a52c0f3;
     border-color: #3a52c0f3;
+}
+
+.btn-register {
+    border-color: var(--main-color);
+    color: var(--main-color) !important;
+}
+
+.btn-register:hover {
+    background-color: var(--main-color);
+    color: var(--second-color) !important;
 }

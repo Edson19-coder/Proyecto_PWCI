@@ -46,6 +46,13 @@
 
             $user = UserController::getUserByEmailPassword($email, $password);
             if($user){
+                session_start();
+                $_SESSION['id'] = $user['id'];
+                $_SESSION['username'] = $user['username']; 
+                $_SESSION['email'] = $user['email'];
+                $_SESSION['firstName'] = $user['firstName'];
+                $_SESSION['lastNames'] = $user['lastNames'];
+
                 echo json_encode($user);
             }else{
                 echo '{"message" : { "status": "404" , "text": "No se puede identificar este usuario." } }';

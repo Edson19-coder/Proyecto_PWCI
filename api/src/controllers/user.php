@@ -91,7 +91,6 @@
 
                 if($result) {
                     // Recorremos los resultados devueltos
-			        $users = array();
 			        while( $user = $result->fetch_assoc()) {
                         return $user;
 			        }
@@ -148,11 +147,9 @@
                 $result = $db->query($sql); // Se ejecuta el query
 
                 if($result){
-                    $users = array();
                     while ($user = $result->fetch_assoc()) { //Se recorre el arreglo con cada resultado de la consulta
-                        $users[] = $user;
+                        return $user;
                     }
-                    return $users; //Se regresa el array con todos los resultados
                 }else{
                     echo json_encode("No existe este usuario en la DB."); //a
                     return null;
@@ -171,11 +168,9 @@
                 $result = $db->query($sql);
 
                 if($result){
-                    $users = array();
                     while ($user = $result->fetch_assoc()) {
-                        $users[] = $user;
+                        return $user;
                     }
-                    return $users;
                 }else{
                     echo json_encode("No existe este usuario en la DB.");
                     return null;

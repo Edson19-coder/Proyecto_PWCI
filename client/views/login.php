@@ -19,71 +19,9 @@
 
 <body>
     <!-- NAVBAR -->
-    <div class="navbar-sticky bg-light">
-        <div class="navbar navbar-expand-lg navbar-light">
-            <div class="container">
-                <a href="" class="navbar-brand fw-bold d-none-d-sm-block flex-shrink-0">Crealink Digital<span
-                        class="text-primary">.</span></a>
-                <div class="input-group d-none d-lg-flex mx-4">
-                    <input type="text" class="form-control rounded-end" type="text" placeholder="Search for courses">
-                </div>
-                <div class="navbar-toolbar d-flex flex-shrink-0 align-items-center">
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#navbarCollapse"><span class="navbar-toggler-icon"></span></button>
-
-                    <div class="dropdown navbar-tool">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Categories
-                        </a>
-                        <ul class="dropdown-menu categories" aria-labelledby="navbarDropdownMenuLink">
-                            <div class="row">
-                                <div class="col-6">
-                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                </div>
-                                <div class="col-6">
-                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                </div>
-                            </div>
-                        </ul>
-                    </div>
-
-                    <a href="" class="nav-link navbar-tool d-none d-lg-flex btn-login">Log In</a>
-
-                    <a href="" class="nav-link navbar-tool d-none d-lg-flex btn-register btn">Register</a>
-
-                </div>
-            </div>
-        </div>
-        <div class="container">
-            <div class="navbar-collapse collapse" id="navbarCollapse">
-                <!-- Search-->
-                <div class="input-group d-lg-none my-3"><i
-                        class="ci-search position-absolute top-50 start-0 translate-middle-y text-muted fs-base ms-3"></i>
-                    <input class="form-control rounded-start" type="text" placeholder="Search for courses">
-                </div>
-                <!-- Primary menu-->
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a href="" class="nav-link">Log In</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="" class="nav-link">Register</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
+    <?php 
+        include 'navbar.php';
+    ?>
     <!-- /NAVBAR -->
 
     <!-- CONTENT -->
@@ -95,7 +33,7 @@
                         style="color:black;">Crealink Digital<span class="text-primary">.</span></a>
                 </div>
                 <div class="col-12" style="display: flex; justify-content: center; padding: 20px;">
-                    <form id="loginForm" class="col-10">
+                    <form class="col-10">
                         <div class="mb-3">
                             <label for="InputEmailLogin" class="form-label">Email address</label>
                             <input type="email" class="form-control" id="InputEmailLogin"
@@ -112,7 +50,7 @@
                             <label class="form-check-label" for="exampleCheck1">Check me out</label>
                         </div>
                         <button id="btn-sign-in" type="submit" class="col-12 btn btn-primary" style="margin-bottom: 20px ;">Sign In</button>
-                        <a href="#" class="register-a" style="margin-top: 10px; color: black; text-decoration: none;">Register</a>
+                        <a href="register.php" class="register-a" style="margin-top: 10px; color: black; text-decoration: none;">Register</a>
                     </form>
                 </div>
             </div>
@@ -128,14 +66,53 @@
     crossorigin="anonymous"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script src="js/validations-login.js"></script>
+    <script src="../models/user.js"></script>
     <!-- /JS -->
 
     <script type="module">
          import { GLOBAL } from '../services/GLOBAL.js';
 
-        $('#loginForm').submit( (e) =>{
-          
+        $(document).ready( () => {
+
+            <?php if(isset($_SESSION['email'])) { ?>
+                window.location.replace("index.php");
+            <?php } ?>
+            
+            $('#btn-sign-in').on('click', (event) => {
+                event.preventDefault();
+
+                var user = new User($('#InputEmailLogin').val(), $('#InputPasswordLogin').val());
+                
+                getUserByEmailPassword(user);
+            });
+
         });
+
+        function getUserByEmailPassword(user) {
+            var userData = {
+                email: user.userEmail,
+                userPassword: user.userPassword
+            };
+
+            var userDataJson = JSON.stringify(userData);
+
+            $.ajax({
+            url: GLOBAL.url + "/getUserByEmailPassword",
+            async: true,
+			type: 'POST',
+            data: userDataJson,
+			dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+			success: function(data) {
+                console.log(data);
+                window.location.reload();
+			},
+			error: function(x, y, z) {
+				alert("Error en la api: " + x + y + z);				
+            }
+			});
+        }
+        
     </script>
 </body>
 
