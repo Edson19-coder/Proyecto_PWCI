@@ -39,7 +39,14 @@
             <div class="form-content col-6" style="margin-left: auto; margin-right: auto;">
                 <form class="col-10">
                        
-                        <div class="mb-3">
+                        <div class="form-group mb-3">
+                            <label for="image" class="form-label">
+                                Add photo to porfile
+                            </label>
+                            <input type="file" class="form-control" id="image" name="image" accept="image/*">
+                       </div>
+                    
+                       <div class="mb-3">
                             <label for="InputUserNameSettings" class="form-label">User name</label>
                             <input type="text" class="form-control" id="InputUserNameSettings">
                         </div>
@@ -137,9 +144,11 @@
             $('#btn-update').on('click', (event) => {
                 event.preventDefault();
 
+                var foto = $('input[name="image"]')[0].files[0];
+
                 var user = new UserComplete(<?php echo $_SESSION['id'] ?> ,$("#InputUserNameSettings").val(), $("#InputFirstNameSettings").val(),  $("#InputSecondNameSettings").val(), $("#InputLastNameSettings").val(), 
                 $("#InputEmailSettings").val(), $("#InputPasswordSettings").val(), null, $("#InputCountrySettings").val(), $("#InputStateSettings").val(), $("#InputCitySettings").val(), 
-                $("#InputPCSettings").val(), null);
+                $("#InputPCSettings").val(), foto);
 
                 updateUser(user);
             });
@@ -202,7 +211,6 @@
             async: true,
             type: 'POST',
             data: userDataJson,
-            dataType: 'json',
             contentType: 'application/json; charset=utf-8',
                 success: function(user) {
                     console.log(user);
