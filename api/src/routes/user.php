@@ -49,6 +49,7 @@
                 $_SESSION['email'] = $user['email'];
                 $_SESSION['firstName'] = $user['firstName'];
                 $_SESSION['lastNames'] = $user['lastNames'];
+                $_SESSION['profilePicture'] = $user['profilePicture'];
 
                 echo json_encode($user);
             }else{

@@ -53,7 +53,7 @@
                         <div class="dropdown navbar-tool">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="https://mdbootstrap.com/img/Photos/Avatars/img (31).jpg" class="rounded-circle"
+                                <img src="<?php echo $_SESSION['profilePicture'] ?>" class="rounded-circle"
                                     height="30" alt="" loading="lazy" />
                             </a>
                             <ul class="dropdown-menu">
