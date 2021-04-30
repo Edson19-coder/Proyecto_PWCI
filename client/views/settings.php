@@ -213,6 +213,7 @@
             async: true,
             type: 'POST',
             data: userDataJson,
+            dataType: 'json',
             contentType: 'application/json; charset=utf-8',
                 success: function(user) {
                     console.log(user);
