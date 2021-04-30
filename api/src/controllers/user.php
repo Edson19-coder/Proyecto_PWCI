@@ -64,6 +64,10 @@
                 if (!$result) {
                     echo "Problema al hacer un query: " . $db->error;								
                 } else {
+                    session_start();
+                    $_SESSION['username'] = $userName;
+                    $_SESSION['firstName'] = $firstName;
+                    $_SESSION['lastNames'] = $lastName;
                     echo '{"message" : { "status": "200" , "text": "Usuario modificado satisfactoriamente." } }';
                 }
 
