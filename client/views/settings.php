@@ -31,15 +31,23 @@
 
         <div class="settings-content">
             <div class="col-12">
-                <img id="user-image-view" src="https://mdbootstrap.com/img/Photos/Avatars/img (31).jpg" class="rounded-circle" height="200" alt="" loading="lazy" />
+                <img id="user-image-view" src="<?php echo $_SESSION['profilePicture'] ?>" class="rounded-circle" height="200" alt="" loading="lazy" />
             </div>
             <div class="col-12" style="padding: 20px;">
                 <h1 id="user-name-view"></h1>
             </div>
             <div class="form-content col-6" style="margin-left: auto; margin-right: auto;">
+
+                <form class="col-10" action="../services/upload-image.php" method="POST" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="InputUserNameSettings" class="form-label">User image</label>
+                        <input type="file" class="form-control" name="foto" onclick="check()" id="InputImageSettings">
+                    </div>
+                    <button id="btn-update-image" type="submit" class="col-12 btn btn-primary" style="margin-bottom: 20px ;">Update image</button>
+                </from>
+
                 <form class="col-10">
-                       
-                        <div class="mb-3">
+                       <div class="mb-3">
                             <label for="InputUserNameSettings" class="form-label">User name</label>
                             <input type="text" class="form-control" id="InputUserNameSettings">
                         </div>
@@ -109,7 +117,7 @@
                             <label for="InputPasswordSettings" class="form-label">Password</label>
                             <input type="password" minlength="8" class="form-control" id="InputPasswordSettings">
                         </div>
-                        <button id="btn-update" type="submit" class="col-12 btn btn-primary" style="margin-bottom: 20px ;">Update</button>
+                        <button id="btn-update" type="submit" class="col-12 btn btn-primary" style="margin-bottom: 20px ;">Update information</button>
                 </form>
             </div>
         </div>
@@ -126,6 +134,7 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script src="js/notifications.js"></script>
     <script src="../models/user.js"></script>
+    <script src="js/validation-settings.js"></script>
     <!-- /JS -->
 
     <script type="module">
@@ -137,9 +146,11 @@
             $('#btn-update').on('click', (event) => {
                 event.preventDefault();
 
+                var foto = $('input[name="image"]')[0].files[0];
+
                 var user = new UserComplete(<?php echo $_SESSION['id'] ?> ,$("#InputUserNameSettings").val(), $("#InputFirstNameSettings").val(),  $("#InputSecondNameSettings").val(), $("#InputLastNameSettings").val(), 
                 $("#InputEmailSettings").val(), $("#InputPasswordSettings").val(), null, $("#InputCountrySettings").val(), $("#InputStateSettings").val(), $("#InputCitySettings").val(), 
-                $("#InputPCSettings").val(), null);
+                $("#InputPCSettings").val(), foto);
 
                 updateUser(user);
             });

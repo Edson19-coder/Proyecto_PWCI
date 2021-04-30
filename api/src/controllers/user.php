@@ -7,12 +7,14 @@
         /*          TODOS LOS INSERT            */
         public static function addUser($email, $userPassword, $userName, $firstName, $secondName, $lastName) {
 
+            $imageDefault = "../../api/src/images/defualt.png";
+
             if($secondName) {
-                $sql = "INSERT INTO `users`(`email`, `userPassword`, `username`, `firstName`, `secondName`, `lastNames`) 
-                VALUES ('".$email."','".$userPassword."','".$userName."','".$firstName."','".$secondName."','".$lastName."')";
+                $sql = "INSERT INTO `users`(`email`, `userPassword`, `username`, `firstName`, `secondName`, `lastNames`, `profilePicture`) 
+                VALUES ('".$email."','".$userPassword."','".$userName."','".$firstName."','".$secondName."','".$lastName."','".$imageDefault."')";
             } else {
-                $sql = "INSERT INTO `users`(`email`, `userPassword`, `username`, `firstName`, `lastNames`) 
-                VALUES ('".$email."','".$userPassword."','".$userName."','".$firstName."','".$lastName."')";
+                $sql = "INSERT INTO `users`(`email`, `userPassword`, `username`, `firstName`, `lastNames`, `profilePicture`) 
+                VALUES ('".$email."','".$userPassword."','".$userName."','".$firstName."','".$lastName."','".$imageDefault."')";
             }
             
             try{
@@ -47,13 +49,12 @@
             $state = $state ? $state : null;
             $city = $city ? $city : null;
             $postalCode = $postalCode ? $postalCode : 0;
-            $profilePicture = $profilePicture ? $profilePicture : null;
             
 
             if($id){
                 $sql = "UPDATE users SET email = '".$email."', userPassword = '".$userPassword."', username = '".$userName."', firstName = '".$firstName."',
                         secondName = '".$secondName."', lastNames = '".$lastName."', birthday = '".$birthday."', country = '".$country."', `state` = '".$state."',
-                        city = '".$city."', postalCode = ".$postalCode.", profilePicture = '".$profilePicture."' WHERE id = ".$id.";";
+                        city = '".$city."', postalCode = ".$postalCode." WHERE id = ".$id.";";
             }
             
             try{
