@@ -265,19 +265,27 @@
                 event.preventDefault();
 
                 courseInformation = new CourseInformation($('#InputTitle').val(), $('#InputShortDescription').val(), $('#InputLongDescription').val(), $( "#InputCategory option:selected" ).text(), "", $('#InputPrice').val());
-                debugger;
+                
+                createCourse(courseInformation);
             });
 
             //Agregamos una nueva clase para el curso
             $('#btnLessonAdd').on('click', (event) => {
                 event.preventDefault();
+                
+                var videoLesson = document.getElementById('InputVideoLessonAdd');
+                var docLesson = document.getElementById('InputFileLessonAdd');
 
-                var newLesson = new Lesson($('#InputLessonTitleAdd').val(), $('#InputLessonDescriptionAdd').val(), "", "");
+                var newLesson = new Lesson($('#InputLessonTitleAdd').val(), $('#InputLessonDescriptionAdd').val(), videoLesson.files[0], docLesson.files[0]);
+                
                 lessonList.push(newLesson);
                 newLesson.setId(lessonList.length);
-                $('#lessonTBody').append(newLesson.getHtml());	
+                $('#lessonTBody').append(newLesson.getHtml());
+
                 $('#InputLessonTitleAdd').val('');
                 $('#InputLessonDescriptionAdd').val('');
+                $('#InputVideoLessonAdd').val('');
+                $('#InputFileLessonAdd').val('');
             });
 
             //Borramos una clase del curso
@@ -286,7 +294,6 @@
                 var indiceString = $(this).parents('td').parents('tr').children('td.titleCol').html();
                 var indice = lessonList.findIndex(function(o) { return o.lessonTitle === indiceString; })
                 lessonList.splice(indice , 1);
-                debugger;
             });
 
             //Mostramos en editar la clase seleccionada
@@ -308,6 +315,129 @@
                     $('#lessonTBody').append(newLesson.getHtml());	
                 }
             });
+
+            //AJAX
+
+            function createCourse(newCourse) {
+                var courseData = {
+                    courseTitle: newCourse.courseTitle,
+                    shortDescription: newCourse.shortDescription,
+                    longDescription: newCourse.longDescription,
+                    categorie: newCourse.categorie,
+                    price: newCourse.price
+                };
+
+                var courseDataJson = JSON.stringify(courseData)
+
+                var promise = $.ajax({
+                url: GLOBAL.url + "/addCourse",
+                async: true,
+			    type: 'POST',
+                data: courseDataJson,
+			    dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+			    success: function(data) {
+                    console.log(data);
+			    },
+			    error: function(x, y, z) {
+				    alert("Error en la api: " + x + y + z);				
+                }
+			    });
+
+                promise.then( () => {
+
+                    var imageCourse = document.getElementById('miniature-course');
+                    var myFormData = new FormData();
+                    myFormData.append('foto', imageCourse.files[0]);
+                        
+                    $.ajax({
+                        url: "../services/upload-miniature.php",
+                        async: true,
+                        type: 'POST',
+                        data: myFormData,
+                        dataType: 'json',
+                        processData: false, 
+                        contentType: false,
+                        success: function(data) {
+                            console.log(data);
+                        },
+                        error: function(x, y, z) {
+                            alert("Error en la api: " + x + y + z);				
+                        }
+                    });
+                });
+
+                promise.then( () => {
+                    for(let lesson of lessonList) {
+
+                        var lessonData = {
+                            lessonTitle: lesson.lessonTitle,
+                            lessonDescription: lesson.lessonDescription
+                        };
+
+                        var lessonDataJson = JSON.stringify(lessonData)
+
+                        var promiseLesson = $.ajax({
+                        url: GLOBAL.url + "/addLesson",
+                        async: true,
+                        type: 'POST',
+                        data: lessonDataJson,
+                        dataType: 'json',
+                        contentType: 'application/json; charset=utf-8',
+                        success: function(data) {
+                            console.log(data);
+                        },
+                        error: function(x, y, z) {
+                            alert("Error en la api: " + x + y + z);				
+                        }
+                        });
+
+                        promiseLesson.then( () => {
+                            var myFormData = new FormData();
+                            myFormData.append('video', lesson.lessonVideo);
+                        
+                            $.ajax({
+                                url: "../services/upload-video.php",
+                                async: true,
+                                type: 'POST',
+                                data: myFormData,
+                                dataType: 'json',
+                                processData: false, 
+                                contentType: false,
+                                success: function(data) {
+                                    console.log(data);
+                                },
+                                error: function(x, y, z) {
+                                    alert("Error en la api: " + x + y + z);				
+                                }
+                            });
+                        });
+
+                        promiseLesson.then( () => {
+                            var myFormData = new FormData();
+                            myFormData.append('file', lesson.lessonFile);
+                        
+                            $.ajax({
+                                url: "../services/upload-file.php",
+                                async: true,
+                                type: 'POST',
+                                data: myFormData,
+                                dataType: 'json',
+                                processData: false, 
+                                contentType: false,
+                                success: function(data) {
+                                    console.log(data);
+                                },
+                                error: function(x, y, z) {
+                                    alert("Error en la api: " + x + y + z);				
+                                }
+                            });
+                        });
+                    }
+                });
+            }
+            
+            //AJAX
         });
 
     </script>

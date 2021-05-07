@@ -19,6 +19,8 @@
 
     //User routes
     require '../src/routes/user.php';
+    //Course routes
+    require '../src/routes/course.php';
 
     // Run app
     $app->run();

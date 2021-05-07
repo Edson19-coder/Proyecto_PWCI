@@ -8,9 +8,9 @@ var CourseComple = function(userName, name, secondName, lastName,userEmail, user
     this.userPassword = userPassword;
 };
 
-var CourseInformation = function(courseTitle, ShortDescription, longDescription, categorie, imageMiniature, price) {
+var CourseInformation = function(courseTitle, shortDescription, longDescription, categorie, imageMiniature, price) {
     this.courseTitle = courseTitle;
-    this.ShortDescription = ShortDescription;
+    this.shortDescription = shortDescription;
     this.longDescription = longDescription;
     this.categorie = categorie;
     this.imageMiniature = imageMiniature;
