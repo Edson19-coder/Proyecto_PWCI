@@ -323,7 +323,7 @@
                     courseTitle: newCourse.courseTitle,
                     shortDescription: newCourse.shortDescription,
                     longDescription: newCourse.longDescription,
-                    categorie: newCourse.categorie,
+                    category: newCourse.category,
                     price: newCourse.price
                 };
 

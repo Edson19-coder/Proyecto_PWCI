@@ -1,7 +1,7 @@
 <?php 
 
     class db {
-        private $dbHost = "localhost";
+        private $dbHost = "localhost:3307";
         private $dbUser = "root";
         private $dbPassword = "";
         private $dbName = "pwci_db";

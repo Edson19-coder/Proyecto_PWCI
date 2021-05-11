@@ -33,11 +33,9 @@
             }catch(PDOException $e){
                 echo '{"error" : {"text":'.$e->getMessage().'} }';
             }
-
         }
 
         /*          TODOS LOS UPDATE            */
-
         public static function updateUser($id, $email, $userPassword, $userName, $firstName, $secondName, $lastName,$birthday, $country, $state, $city, $postalCode, $profilePicture){
             
             $userName = $userName ? $userName : null;
@@ -49,7 +47,6 @@
             $state = $state ? $state : null;
             $city = $city ? $city : null;
             $postalCode = $postalCode ? $postalCode : 0;
-            
 
             if($id){
                 $sql = "UPDATE users SET email = '".$email."', userPassword = '".$userPassword."', username = '".$userName."', firstName = '".$firstName."',

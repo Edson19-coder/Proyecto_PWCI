@@ -4,12 +4,14 @@
     use \Psr\Http\Message\ResponseInterface as Response;
 
     $app = new \Slim\App(['settings' => ['displayErrorDetails' => true]]);
+    date_default_timezone_set('America/Monterrey');
 
-    require 'C:/xampp/htdocs/projects/Proyecto_PWCI/api/src/controllers/user.php';
-    require 'C:/xampp/htdocs/projects/Proyecto_PWCI/api/src/models/user.php';
+    require_once 'C:/xampp/htdocs/projects/Proyecto_PWCI/api/src/controllers/user.controller.php';
+    require_once 'C:/xampp/htdocs/projects/Proyecto_PWCI/api/src/models/user.model.php';
 
     /*              TODOS LOS INSERT         */
     $app->post('/addUser', function(Request $request, Response $response){
+
         if($request->getParam('userName') && $request->getParam('email') && $request->getParam('userPassword') && $request->getParam('firstName') && $request->getParam('lastName')) {
             if($request->getParam('secondName')) {
                 UserController::addUser($request->getParam('email'), $request->getParam('userPassword'), $request->getParam('userName'), $request->getParam('firstName'), 
@@ -26,7 +28,7 @@
     /*          TODOS LOS UPDATE        */
     $app->post('/updateUser', function(Request $request, Response $response){
         if($request->getParam('userName') && $request->getParam('email')){
-            $userID = $request->getParam('id');
+
             UserController::updateUser($request->getParam('id'), $request->getParam('email'), $request->getParam('userPassword'), $request->getParam('userName'), 
             $request->getParam('firstName'), $request->getParam('secondName'), $request->getParam('lastName'), $request->getParam('birthday'), $request->getParam('country'), 
             $request->getParam('state'), $request->getParam('city'), $request->getParam('postalCode'), $request->getParam('profilePicture'));
