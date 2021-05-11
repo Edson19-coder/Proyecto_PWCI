@@ -8,11 +8,11 @@ var CourseComple = function(userName, name, secondName, lastName,userEmail, user
     this.userPassword = userPassword;
 };
 
-var CourseInformation = function(courseTitle, shortDescription, longDescription, categorie, imageMiniature, price) {
+var CourseInformation = function(courseTitle, shortDescription, longDescription, category, imageMiniature, price) {
     this.courseTitle = courseTitle;
     this.shortDescription = shortDescription;
     this.longDescription = longDescription;
-    this.categorie = categorie;
+    this.category = category;
     this.imageMiniature = imageMiniature;
     this.price = price
 };

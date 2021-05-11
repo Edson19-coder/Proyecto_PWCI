@@ -2,19 +2,19 @@
 
     class UserModelBase{
 
-        private $id;
-        private $email;
-        private $userPassword;
-        private $userName;
-        private $firstName;
-        private $secondName;
-        private $lastName;
-        private $birthday;
-        private $country;
-        private $state;
-        private $city;
-        private $postalCode;
-        private $profilePicture;
+        protected $id;
+        protected $email;
+        protected $userPassword;
+        protected $userName;
+        protected $firstName;
+        protected $secondName;
+        protected $lastName;
+        protected $birthday;
+        protected $country;
+        protected $state;
+        protected $city;
+        protected $postalCode;
+        protected $profilePicture;
 
         public function __construct($id, $email, $userPassword, $userName) {
             $this->id = $id;
