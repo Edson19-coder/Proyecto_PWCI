@@ -5,7 +5,7 @@
         public static function addCourse($courseTitle, $shortDescription, $longDescription, $category, $price, $date){
             if($courseTitle){
                 $date = date('c');
-                $sql = "INSERT INTO `courses`(`courseTitle`, `shortDescription`, `longDescription`, `category`, `price`, `date`)
+                $sql = "INSERT INTO `courses`(`title`, `shortDescription`, `longDescription`, `category`, `price`, `createdAt`)
                  VALUES ('".$courseTitle."','".$shortDescription."','".$longDescription."',".$category.",'".$price."','".$date."');";
             }
             else{
@@ -20,7 +20,8 @@
                 if (!$result) {
                     echo "Problema al hacer un query: " . $db->error;								
                 } else {
-                    echo '{"message" : { "status": "200" , "text": "Usuario creado satisfactoriamente." } }';
+                    $last_id = mysqli_insert_id($db);
+                    echo json_encode($last_id);
                 }
 
                 $result = null;
@@ -87,7 +88,7 @@
             }
         }
 
-        public static function getCourseByTitle($category){
+        public static function getCourseByCategory($category){
             if($courseTitle){
                 $sql = "SELECT * FROM courses WHERE courseTitle LIKE '%$category%'";
             }else{

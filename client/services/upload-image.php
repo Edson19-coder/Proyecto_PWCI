@@ -15,7 +15,6 @@ if($foto) {
 
     if($id) {
         $sql = "UPDATE users SET profilePicture = '".$destino."' WHERE id = ".$id.";";
-        echo $sql;
         $db = new db();
         $db = $db->connection();
         $result = $db->query($sql);

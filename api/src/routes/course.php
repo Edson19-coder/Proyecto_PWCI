@@ -3,7 +3,6 @@
     use \Psr\Http\Message\ServerRequestInterface as Request;
     use \Psr\Http\Message\ResponseInterface as Response;
 
-    $app = new \Slim\App(['settings' => ['displayErrorDetails' => true]]);
     date_default_timezone_set('America/Monterrey');
 
     require_once 'C:/xampp/htdocs/projects/Proyecto_PWCI/api/src/controllers/course.controller.php';
@@ -18,8 +17,6 @@
         else{
             echo '{"message" : { "status": "500" , "text": "Server error" } }';
         }
-
-        echo '{"message" : { "status": "200" , "text": "Curso creado correctamente." } }';
     });
 
     $app->post('/updateCourse', function(Request $request, Response $response){
@@ -49,7 +46,7 @@
 
     $app->get('/getCourseByTitleShortDescription', function(Request $request, Response $response){
         if($request->getParam('courseTitle') || $request->getParam('courseTitle')){
-            CourseController::getCourseByTitleShortDescription($request->getParam('courseTitle'), request->getParam('shortDescription'));
+            CourseController::getCourseByTitleShortDescription($request->getParam('courseTitle'), $request->getParam('shortDescription'));
         }else{
             echo '{"message" : { "status": "500" , "text": "No jala el server." } }';
         }
