@@ -12,13 +12,13 @@
     /*              TODOS LOS INSERT         */
     $app->post('/addUser', function(Request $request, Response $response){
 
-        if($request->getParam('userName') && $request->getParam('email') && $request->getParam('userPassword') && $request->getParam('firstName') && $request->getParam('lastName')) {
+        if($request->getParam('userName') && $request->getParam('email') && $request->getParam('userPassword') && $request->getParam('firstName') && $request->getParam('lastName') && $request->getParam('accountType')) {
             if($request->getParam('secondName')) {
                 UserController::addUser($request->getParam('email'), $request->getParam('userPassword'), $request->getParam('userName'), $request->getParam('firstName'), 
-                $request->getParam('secondName'), $request->getParam('lastName'));
+                $request->getParam('secondName'), $request->getParam('lastName'), $request->getParam('accountType'));
             } else {
                 UserController::addUser($request->getParam('email'), $request->getParam('userPassword'), $request->getParam('userName'), $request->getParam('firstName'), 
-                null, $request->getParam('lastName'));
+                null, $request->getParam('lastName'), $request->getParam('accountType'));
             }
         } else {
             echo '{"message" : { "status": "500" , "text": "Server error" } }';
@@ -31,7 +31,7 @@
 
             UserController::updateUser($request->getParam('id'), $request->getParam('email'), $request->getParam('userPassword'), $request->getParam('userName'), 
             $request->getParam('firstName'), $request->getParam('secondName'), $request->getParam('lastName'), $request->getParam('birthday'), $request->getParam('country'), 
-            $request->getParam('state'), $request->getParam('city'), $request->getParam('postalCode'), $request->getParam('profilePicture'));
+            $request->getParam('state'), $request->getParam('city'), $request->getParam('postalCode'), $request->getParam('profilePicture'), $request->getParam('accountType'));
         }else{
             echo '{"message" : { "status": "500" , "text": "No jala el server." } }';
         }
@@ -52,6 +52,7 @@
                 $_SESSION['firstName'] = $user['firstName'];
                 $_SESSION['lastNames'] = $user['lastNames'];
                 $_SESSION['profilePicture'] = $user['profilePicture'];
+                $_SESSION['accountType'] = $user['accountType'];
 
                 echo json_encode($user);
             }else{

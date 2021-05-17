@@ -117,6 +117,13 @@
                             <label for="InputPasswordSettings" class="form-label">Password</label>
                             <input type="password" minlength="8" class="form-control" id="InputPasswordSettings">
                         </div>
+                        <div class="mb-3">
+                        <label for="InputAccountType">Account type</label>
+                            <select class="form-control" id="InputAccountType">
+                                <option value="0">Student</option>
+                                <option value="1">Instructor</option>
+                            </select>
+                        </div>
                         <button id="btn-update" type="submit" class="col-12 btn btn-primary" style="margin-bottom: 20px ;">Update information</button>
                 </form>
             </div>
@@ -146,11 +153,9 @@
             $('#btn-update').on('click', (event) => {
                 event.preventDefault();
 
-                var foto = $('input[name="image"]')[0].files[0];
-
                 var user = new UserComplete(<?php echo $_SESSION['id'] ?> ,$("#InputUserNameSettings").val(), $("#InputFirstNameSettings").val(),  $("#InputSecondNameSettings").val(), $("#InputLastNameSettings").val(), 
                 $("#InputEmailSettings").val(), $("#InputPasswordSettings").val(), null, $("#InputCountrySettings").val(), $("#InputStateSettings").val(), $("#InputCitySettings").val(), 
-                $("#InputPCSettings").val(), foto);
+                $("#InputPCSettings").val(), null, parseInt($('#InputAccountType').val()));
 
                 updateUser(user);
             });
@@ -182,6 +187,7 @@
                     $("#InputPCSettings").val(user.postalCode);
                     $("#InputEmailSettings").val(user.email);
                     $("#InputPasswordSettings").val(user.userPassword);
+                    $('#InputAccountType option[value="'+ user.accountType +'"]').attr("selected",true);
                 },
                 error: function(x, y, z) {
                     alert("Error en la api: " + x + y + z);				
@@ -203,7 +209,8 @@
                 state: user.state,
                 city: user.city,
                 postalCode: user.postalCode,
-                profilePicture: user.profilePicture
+                profilePicture: user.profilePicture, 
+                accountType: user.accountType
             };
 
             var userDataJson = JSON.stringify(userData);

@@ -62,15 +62,45 @@
                             <textarea class="form-control" id="InputLongDescription"></textarea>
                         </div>
                         <div class="mb-3 form-group">
-                            <label for="InputCategory">Categories</label>
-                            <select class="form-control" id="InputCategory">
-                                <option>Programación</option>
-                                <option>Diseño grafico</option>
-                                <option>Marketing</option>
-                                <option>Base de datos</option>
-                                <option>Idiomas</option>
-                            </select>
+                        <label for="InputCategory">Categories</label>
+                            <div class="row">
+                                <div class="col-10">
+                                    <select class="form-control" id="InputCategory">
+                                    </select>
+                                </div>
+                                <div class="col-2">
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCategory"> <i class="fas fa-plus"></i> </button>
+                                </div>
+                            </div>
                         </div>
+
+                        <!-- Modal Add Category -->
+                        <div class="modal fade" id="addCategory" data-bs-backdrop="static" data-bs-keyboard="false"
+                            tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title fw-bold" id="staticBackdropLabel">ADD CATEGORY<span
+                                                class="text-primary">.</span></h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="mb-3">
+                                            <label for="InputLessonTitle" class="form-label">Category name</label>
+                                            <input type="text" class="form-control" id="InputNameCategoryAdd">
+                                        </div>
+                                        <div class="text-end">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="btnCategoryAdd">Add</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Modal Add Category -->
+                        
                         <div class="mb-3 form-group">
                             <label for="miniature-course">Miniature of the course</label>
                             <input type="file" class="form-control-file form-control" id="miniature-course">
@@ -249,6 +279,7 @@
     <script src="js/notification-create-course.js"></script>
     <script src="../models/course.js"></script>
     <script src="../models/lesson.js"></script>
+    <script src="../models/category.js"></script>
     <!-- /JS -->
 
     <script type="module">
@@ -260,11 +291,13 @@
 
         $(document).ready(() => {
 
+            getCategorires();
+
             //Obtenemos la información del curso
             $('#btn-create-course').on('click', (event) => {
                 event.preventDefault();
 
-                courseInformation = new CourseInformation($('#InputTitle').val(), $('#InputShortDescription').val(), $('#InputLongDescription').val(), $( "#InputCategory option:selected" ).text(), "", $('#InputPrice').val());
+                courseInformation = new CourseInformation($('#InputTitle').val(), $('#InputShortDescription').val(), $('#InputLongDescription').val(), $( "#InputCategory" ).val(), "", $('#InputPrice').val(), <?php echo $_SESSION['id'] ?>);
                 
                 createCourse(courseInformation);
             });
@@ -316,7 +349,16 @@
                 }
             });
 
+            $('#btnCategoryAdd').on('click', (event) => {
+                event.preventDefault();
+                var category = new Category(null, $('#InputNameCategoryAdd').val(), null);
+                $('#InputNameCategoryAdd').val("");
+                addCategory(category);
+            })
+
             //AJAX
+
+            var lastIdCourse;
 
             function createCourse(newCourse) {
                 var courseData = {
@@ -324,7 +366,8 @@
                     shortDescription: newCourse.shortDescription,
                     longDescription: newCourse.longDescription,
                     category: newCourse.category,
-                    price: newCourse.price
+                    price: newCourse.price, 
+                    instructor: parseInt(newCourse.instructor)
                 };
 
                 var courseDataJson = JSON.stringify(courseData)
@@ -334,10 +377,10 @@
                 async: true,
 			    type: 'POST',
                 data: courseDataJson,
-			    dataType: 'json',
                 contentType: 'application/json; charset=utf-8',
 			    success: function(data) {
-                    console.log(data);
+                    lastIdCourse = data
+                    console.log(lastIdCourse);
 			    },
 			    error: function(x, y, z) {
 				    alert("Error en la api: " + x + y + z);				
@@ -349,13 +392,13 @@
                     var imageCourse = document.getElementById('miniature-course');
                     var myFormData = new FormData();
                     myFormData.append('foto', imageCourse.files[0]);
-                        
+                    myFormData.append('courseId', lastIdCourse);
+
                     $.ajax({
                         url: "../services/upload-miniature.php",
                         async: true,
                         type: 'POST',
                         data: myFormData,
-                        dataType: 'json',
                         processData: false, 
                         contentType: false,
                         success: function(data) {
@@ -366,7 +409,8 @@
                         }
                     });
                 });
-
+                
+                /*
                 promise.then( () => {
                     for(let lesson of lessonList) {
 
@@ -434,9 +478,57 @@
                             });
                         });
                     }
-                });
+                });*/
             }
             
+            function getCategorires() {
+                $.ajax({
+                    url: GLOBAL.url + "/getCategories",
+                    async: true,
+                    type: 'GET',
+                    dataType: 'json',
+                    contentType: 'application/json; charset=utf-8',
+                    success: function(datos) {
+                        for(let dato of datos) {
+                            var category = new Category(dato.id, dato.categoryName, dato.createdAt)
+                            $('#InputCategory').append($('<option>', {
+                                value: category.id,
+                                text: category.name
+                            }));
+                        }
+                    },
+                    error: function(x, y, z) {
+                        alert("Error en la api: " + x + y + z);				
+                    }
+                })
+            }
+
+            function addCategory(newCategory) {
+                var categoryData = {
+                    categoryName: newCategory.name
+                };
+
+                var categoryDataJson = JSON.stringify(categoryData);
+
+                $.ajax({
+                    url: GLOBAL.url + "/addCategory",
+                    async: true,
+                    type: 'POST',
+                    data: categoryDataJson,
+                    dataType: 'json',
+                    contentType: 'application/json; charset=utf-8',
+                    success: function(data) {
+                        console.log(data);
+                        $('#InputCategory').empty();
+                        getCategorires();
+                    },
+                    error: function(x, y, z) {
+                        alert("Error en la api: " + x + y + z);				
+                    }
+			    });
+
+            }
+
             //AJAX
         });
 

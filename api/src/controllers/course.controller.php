@@ -2,11 +2,11 @@
     require_once 'C:/xampp/htdocs/projects/Proyecto_PWCI/api/src/config/db.php';
 
     class CourseController{
-        public static function addCourse($courseTitle, $shortDescription, $longDescription, $category, $price, $date){
+        public static function addCourse($courseTitle, $shortDescription, $longDescription, $category, $price, $date, $instructor){
             if($courseTitle){
                 $date = date('c');
-                $sql = "INSERT INTO `courses`(`courseTitle`, `shortDescription`, `longDescription`, `category`, `price`, `date`)
-                 VALUES ('".$courseTitle."','".$shortDescription."','".$longDescription."',".$category.",'".$price."','".$date."');";
+                $sql = "INSERT INTO `courses`(`title`, `shortDescription`, `longDescription`, `category`, `price`, `createdAt`, `instructor`)
+                 VALUES ('".$courseTitle."','".$shortDescription."','".$longDescription."',".$category.",'".$price."','".$date."', '.$instructor.');";
             }
             else{
                 echo '{"message" : "No jaló la consulta"}';
@@ -20,7 +20,8 @@
                 if (!$result) {
                     echo "Problema al hacer un query: " . $db->error;								
                 } else {
-                    echo '{"message" : { "status": "200" , "text": "Usuario creado satisfactoriamente." } }';
+                    $last_id = mysqli_insert_id($db);
+                    echo json_encode($last_id);
                 }
 
                 $result = null;
@@ -57,6 +58,32 @@
             }
         }
 
+        public function getCourseById($id) {
+            
+            $sql = "CALL `proc_get_course`(".$id.")";
+            try{
+                $db = new db();
+                $db = $db->connection();
+                $result = $db->query($sql);
+
+                if($result) {
+                    // Recorremos los resultados devueltos
+			        while( $course = $result->fetch_assoc()) {
+                        return $course;
+			        }
+                }else {
+                    echo json_encode("No existen usuarios en la BBDD.");
+                    return null;
+                }
+    
+                $result = null;
+                $db = null;
+    
+            }catch(PDOException $e){
+                echo '{"error" : {"text":'.$e->getMessage().'} }';
+            }    
+        }
+
         public static function getCourseByTitle($courseTitle){
             if($courseTitle){
                 $sql = "SELECT * FROM courses WHERE courseTitle LIKE '%$courseTitle%'";
@@ -87,7 +114,7 @@
             }
         }
 
-        public static function getCourseByTitle($category){
+        public static function getCourseByCategory($category){
             if($courseTitle){
                 $sql = "SELECT * FROM courses WHERE courseTitle LIKE '%$category%'";
             }else{
@@ -137,6 +164,31 @@
                         $cursos[] = $curso;
                     }
                     var_dump(count($cursos));
+                    return $cursos;
+                }
+
+                $result = null;
+                $db = null;
+            }catch(PDOException $e){
+                echo '{"error" : {"text":'.$e->getMessage().'} }';
+            }
+        }
+
+        public static function getCourseLimit() {
+            $sql = "CALL `proc_get_courses_recent`();";
+
+            try{
+                $db = new db();
+                $db = $db->connection();
+                $result = $db->query($sql);
+
+                if (!$result) {
+                    echo "Problema al hacer un query: " . $db->error;								
+                } else {
+                    $cursos = array();
+                    while($curso = $result->fetch_assoc()){
+                        $cursos[] = $curso;
+                    }
                     return $cursos;
                 }
 
