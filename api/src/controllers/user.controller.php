@@ -5,16 +5,16 @@
     class UserController {
 
         /*          TODOS LOS INSERT            */
-        public static function addUser($email, $userPassword, $userName, $firstName, $secondName, $lastName) {
+        public static function addUser($email, $userPassword, $userName, $firstName, $secondName, $lastName, $accountType) {
 
             $imageDefault = "../../api/src/images/defualt.png";
 
             if($secondName) {
-                $sql = "INSERT INTO `users`(`email`, `userPassword`, `username`, `firstName`, `secondName`, `lastNames`, `profilePicture`) 
-                VALUES ('".$email."','".$userPassword."','".$userName."','".$firstName."','".$secondName."','".$lastName."','".$imageDefault."')";
+                $sql = "INSERT INTO `users`(`email`, `userPassword`, `username`, `firstName`, `secondName`, `lastNames`, `profilePicture`, `accountType`) 
+                VALUES ('".$email."','".$userPassword."','".$userName."','".$firstName."','".$secondName."','".$lastName."','".$imageDefault."', '.$accountType.')";
             } else {
-                $sql = "INSERT INTO `users`(`email`, `userPassword`, `username`, `firstName`, `lastNames`, `profilePicture`) 
-                VALUES ('".$email."','".$userPassword."','".$userName."','".$firstName."','".$lastName."','".$imageDefault."')";
+                $sql = "INSERT INTO `users`(`email`, `userPassword`, `username`, `firstName`, `lastNames`, `profilePicture`, `accountType`) 
+                VALUES ('".$email."','".$userPassword."','".$userName."','".$firstName."','".$lastName."','".$imageDefault."', '.$accountType.')";
             }
             
             try{
@@ -36,7 +36,7 @@
         }
 
         /*          TODOS LOS UPDATE            */
-        public static function updateUser($id, $email, $userPassword, $userName, $firstName, $secondName, $lastName,$birthday, $country, $state, $city, $postalCode, $profilePicture){
+        public static function updateUser($id, $email, $userPassword, $userName, $firstName, $secondName, $lastName,$birthday, $country, $state, $city, $postalCode, $profilePicture, $accountType){
             
             $userName = $userName ? $userName : null;
             $firstName = $firstName ? $firstName : null;
@@ -51,7 +51,7 @@
             if($id){
                 $sql = "UPDATE users SET email = '".$email."', userPassword = '".$userPassword."', username = '".$userName."', firstName = '".$firstName."',
                         secondName = '".$secondName."', lastNames = '".$lastName."', birthday = '".$birthday."', country = '".$country."', `state` = '".$state."',
-                        city = '".$city."', postalCode = ".$postalCode." WHERE id = ".$id.";";
+                        city = '".$city."', postalCode = ".$postalCode.", accountType = ".$accountType." WHERE id = ".$id.";";
             }
             
             try{
@@ -66,6 +66,7 @@
                     $_SESSION['username'] = $userName;
                     $_SESSION['firstName'] = $firstName;
                     $_SESSION['lastNames'] = $lastName;
+                    $_SESSION['accountType'] = $accountType;
                     echo '{"message" : { "status": "200" , "text": "Usuario modificado satisfactoriamente." } }';
                 }
 

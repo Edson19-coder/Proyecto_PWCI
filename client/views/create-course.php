@@ -297,7 +297,7 @@
             $('#btn-create-course').on('click', (event) => {
                 event.preventDefault();
 
-                courseInformation = new CourseInformation($('#InputTitle').val(), $('#InputShortDescription').val(), $('#InputLongDescription').val(), $( "#InputCategory" ).val(), "", $('#InputPrice').val());
+                courseInformation = new CourseInformation($('#InputTitle').val(), $('#InputShortDescription').val(), $('#InputLongDescription').val(), $( "#InputCategory" ).val(), "", $('#InputPrice').val(), <?php echo $_SESSION['id'] ?>);
                 
                 createCourse(courseInformation);
             });
@@ -366,7 +366,8 @@
                     shortDescription: newCourse.shortDescription,
                     longDescription: newCourse.longDescription,
                     category: newCourse.category,
-                    price: newCourse.price
+                    price: newCourse.price, 
+                    instructor: parseInt(newCourse.instructor)
                 };
 
                 var courseDataJson = JSON.stringify(courseData)

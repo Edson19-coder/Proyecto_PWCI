@@ -10,9 +10,9 @@
 
     $app->post('/addCourse', function(Request $request, Response $response){
         
-        if($request->getParam('courseTitle') && $request->getParam('category') && $request->getParam('price')){
+        if($request->getParam('courseTitle')){
             CourseController::addCourse($request->getParam('courseTitle'), $request->getParam('shortDescription'), $request->getParam('longDescription'), 
-            $request->getParam('category'), $request->getParam('price'), $request->getParam('date'));
+            $request->getParam('category'), $request->getParam('price'), $request->getParam('date'), $request->getParam('instructor'));
         }
         else{
             echo '{"message" : { "status": "500" , "text": "Server error" } }';
@@ -25,6 +25,19 @@
             $request->getParam('category'), $request->getParam('price'), $request->getParam('date'));
         }else{
             echo '{"message" : { "status": "500" , "text": "No jala el server." } }';
+        }
+    });
+
+    $app->post('/getCourseById/{course}', function(Request $request, Response $response){
+        if($request->getAttribute('course')) {
+            $course = CourseController::getCourseById($request->getAttribute('course'));
+            if($course) {
+                echo json_encode($course);
+            } else {
+                echo '{"message" : { "status": "404" , "text": "No se puede identificar este usuario." } }';
+            }
+        } else {
+            echo '{"message" : { "status": "400" , "text": "Bad Request" } }';
         }
     });
 
@@ -49,6 +62,16 @@
             CourseController::getCourseByTitleShortDescription($request->getParam('courseTitle'), $request->getParam('shortDescription'));
         }else{
             echo '{"message" : { "status": "500" , "text": "No jala el server." } }';
+        }
+    });
+
+    $app->get('/getCoursesoLimit', function(Request $request, Response $response){
+        $courses = CourseController::getCourseLimit();
+        
+        if($courses) {
+            echo json_encode($courses);
+        } else {
+            echo '{"message" : { "status": "200" , "text": "No hay cursos registrados." } }';
         }
     });
 ?>

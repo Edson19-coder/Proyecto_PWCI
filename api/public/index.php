@@ -23,6 +23,8 @@
     require '../src/routes/course.php';
     //Category routes
     require '../src/routes/category.php';
+    //Cart routes
+    require '../src/routes/cart.php';
 
     // Run app
     $app->run();
