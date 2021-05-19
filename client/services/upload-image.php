@@ -5,8 +5,9 @@ require 'C:/xampp/htdocs/projects/Proyecto_PWCI/api/src/config/db.php';
 $foto=$_FILES["foto"]["name"];
 
 if($foto) {
+    $rng = mt_rand(100, 2000);
     $ruta=$_FILES["foto"]["tmp_name"];
-    $destino="../../api/src/images/".$foto;
+    $destino="../../api/src/images/".$rng.$foto;
     move_uploaded_file($ruta, $destino);
 
     session_start();

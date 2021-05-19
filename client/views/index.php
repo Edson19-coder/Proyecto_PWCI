@@ -156,7 +156,7 @@
     <!-- /JS -->
 
     <script type="module">
-         import { GLOBAL } from '../services/GLOBAL.js';
+        import { GLOBAL } from '../services/GLOBAL.js';
 
         $(document).ready( () => {
 
@@ -172,6 +172,7 @@
                 dataType: 'json',
                 contentType: 'application/json; charset=utf-8',
                 success: function(cursos) {
+                    if(cursos.message) return null;
                     for(let curso of cursos) {
                         var cursoA = new CoursePreview(curso.id, curso.title, curso.shortDescription, curso.longDescription, curso.imageUrl, curso.price)
                         $('#newestSection').append(cursoA.getHtml());

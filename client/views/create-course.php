@@ -410,11 +410,14 @@
                     });
                 });
                 
-                /*
+                
                 promise.then( () => {
+                    var lastIdLesson;
+
                     for(let lesson of lessonList) {
 
                         var lessonData = {
+                            courseId: lastIdCourse,
                             lessonTitle: lesson.lessonTitle,
                             lessonDescription: lesson.lessonDescription
                         };
@@ -429,7 +432,7 @@
                         dataType: 'json',
                         contentType: 'application/json; charset=utf-8',
                         success: function(data) {
-                            console.log(data);
+                            lastIdLesson = data
                         },
                         error: function(x, y, z) {
                             alert("Error en la api: " + x + y + z);				
@@ -437,48 +440,55 @@
                         });
 
                         promiseLesson.then( () => {
-                            var myFormData = new FormData();
-                            myFormData.append('video', lesson.lessonVideo);
-                        
-                            $.ajax({
-                                url: "../services/upload-video.php",
-                                async: true,
-                                type: 'POST',
-                                data: myFormData,
-                                dataType: 'json',
-                                processData: false, 
-                                contentType: false,
-                                success: function(data) {
-                                    console.log(data);
-                                },
-                                error: function(x, y, z) {
-                                    alert("Error en la api: " + x + y + z);				
-                                }
-                            });
+                            if(lesson.lessonVideo != undefined) {
+                                var myFormData = new FormData();
+                                myFormData.append('video', lesson.lessonVideo);
+                                myFormData.append('courseId', lastIdCourse);
+                                myFormData.append('lessonId', lastIdLesson);
+                            
+                                $.ajax({
+                                    url: "../services/upload-video.php",
+                                    async: true,
+                                    type: 'POST',
+                                    data: myFormData,
+                                    processData: false, 
+                                    contentType: false,
+                                    success: function(data) {
+                                        console.log(data);
+                                    },
+                                    error: function(x, y, z) {
+                                        alert("Error en la api: " + x + y + z);				
+                                    }
+                                });
+                            }
                         });
 
                         promiseLesson.then( () => {
-                            var myFormData = new FormData();
-                            myFormData.append('file', lesson.lessonFile);
-                        
-                            $.ajax({
-                                url: "../services/upload-file.php",
-                                async: true,
-                                type: 'POST',
-                                data: myFormData,
-                                dataType: 'json',
-                                processData: false, 
-                                contentType: false,
-                                success: function(data) {
-                                    console.log(data);
-                                },
-                                error: function(x, y, z) {
-                                    alert("Error en la api: " + x + y + z);				
-                                }
-                            });
+                            if(lesson.lessonFile != undefined) {
+                                var myFormData = new FormData();
+                                myFormData.append('file', lesson.lessonFile);
+                                myFormData.append('courseId', lastIdCourse);
+                                myFormData.append('lessonId', lastIdLesson);
+                            
+                                $.ajax({
+                                    url: "../services/upload-file.php",
+                                    async: true,
+                                    type: 'POST',
+                                    data: myFormData,
+                                    dataType: 'json',
+                                    processData: false, 
+                                    contentType: false,
+                                    success: function(data) {
+                                        console.log(data);
+                                    },
+                                    error: function(x, y, z) {
+                                        alert("Error en la api: " + x + y + z);				
+                                    }
+                                });
+                            }
                         });
                     }
-                });*/
+                });
             }
             
             function getCategorires() {

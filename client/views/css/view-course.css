@@ -39,3 +39,7 @@ video {
     text-decoration: none;
     color: black;
 }
+
+p > i {
+    margin-right: 10px;
+}

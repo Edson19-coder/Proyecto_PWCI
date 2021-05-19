@@ -30,60 +30,13 @@
             <div class="row">
 
                 <div class="col-12 title text-center">
-                    <h3>My learning</h3>
+                    <h3>My courses</h3>
                     <hr>
                 </div>
 
-                <a href="">
-                    <div class="card p-0" style="width: 15rem;">
-                        <img src="../src/image/php-curso.png" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Curso de PHP basico.</h5>
-                            <p class="card-text">By Edson Lugo</p>
-                            <div class="progress">
-                                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25"
-                                    aria-valuemin="0" aria-valuemax="100">25%</div>
-                            </div>
-                        </div>
-                        <div class="card-footer" style="text-align: right;">
-                            <p class="card-text"><small class="text-muted">10 hours</small></p>
-                        </div>
-                    </div>
-                </a>
-
-                <a href="">
-                    <div class="card p-0" style="width: 15rem;">
-                        <img src="../src/image/gestion-de-desarollo.png" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Gestión y desarollo de proyecto web.</h5>
-                            <p class="card-text">By Alan Mendez</p>
-                            <div class="progress">
-                                <div class="progress-bar" role="progressbar" style="width: 10%;" aria-valuenow="10"
-                                    aria-valuemin="0" aria-valuemax="100">10%</div>
-                            </div>
-                        </div>
-                        <div class="card-footer" style="text-align: right;">
-                            <p class="card-text"><small class="text-muted">5 hours</small></p>
-                        </div>
-                    </div>
-                </a>
-
-                <a href="">
-                    <div class="card p-0" style="width: 15rem;">
-                        <img src="../src/image/aprende-marketing-digital.png" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Aprende Marketing Digital.</h5>
-                            <p class="card-text">By Alison Hernandez</p>
-                            <div class="progress">
-                                <div class="progress-bar" role="progressbar" style="width: 50%;" aria-valuenow="50"
-                                    aria-valuemin="0" aria-valuemax="100">50%</div>
-                            </div>
-                        </div>
-                        <div class="card-footer" style="text-align: right;">
-                            <p class="card-text"><small class="text-muted">3 hours</small></p>
-                        </div>
-                    </div>
-                </a>
+                <div id="courses" class="row">
+                    
+                </div>
 
             </div>
 
@@ -92,7 +45,45 @@
     <!-- /CONTENT -->
     <!-- JS -->
     <script src="js/bootstrap.min.js"></script>
+    <script
+    src="https://code.jquery.com/jquery-3.5.1.min.js"
+    integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+    crossorigin="anonymous"></script>
+    <script src="../models/course.js"></script>
     <!-- /JS -->
+
+    <script type="module">
+         import { GLOBAL } from '../services/GLOBAL.js';
+
+        $(document).ready( () => {
+
+            getCourse();
+
+        });
+
+        function getCourse() {
+            $.ajax({
+                url: GLOBAL.url + "/getCourseByInstructor/" + <?php echo $_SESSION['id'] ?>,
+                async: true,
+                type: 'GET',
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                success: function(cursos) {
+                    if(cursos.message) return null;
+                    
+                    for(let curso of cursos) {
+                        var cursoA = new CoursePreviewSmall(curso.id, curso.title, curso.imageUrl, curso.createdAt);
+                        $('#courses').append(cursoA.getHtml());
+                    }
+                },
+                error: function(x, y, z) {
+                    alert("Error en la api: " + x + y + z);				
+                }
+			});
+        }
+        
+    </script>
+
 </body>
 
 </html>
