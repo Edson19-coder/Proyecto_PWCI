@@ -74,4 +74,22 @@
             echo '{"message" : { "status": "200" , "text": "No hay cursos registrados." } }';
         }
     });
+
+    $app->get('/getCourseByInstructor/{instructorId}', function(Request $request, Response $response){
+        
+        $instructorId = $request->getAttribute('instructorId');
+
+        if($instructorId) {
+            $courses = CourseController::getCourseByInstructor($instructorId);
+        
+            if($courses) {
+                echo json_encode($courses);
+            } else {
+                echo '{"message" : { "status": "200" , "text": "No hay cursos registrados." } }';
+            }
+        } else {
+            echo '{"message" : { "status": "400" , "text": "Bad Request" } }';
+        }
+
+    });
 ?>

@@ -43,6 +43,7 @@
                     </div>
                     <div class="card-body">
                         <h3 class="card-title" style="text-align: center; color: green;" id="price"></h3>
+                        <?php if(isset($_SESSION['email'])) { ?>    
                         <div class="col-12">
                             <a id="addToCart" class="col-12 btn-shop btn btn-primary add-cart">Add to cart</a>
                             <button type="button" class="col-12 btn-shop btn btn-primary" data-bs-toggle="modal"
@@ -118,6 +119,7 @@
                             <!-- /Modal Edit Lesson -->
 
                         </div>
+                        <?php } ?>
                     </div>
                 </div>
             </div>
@@ -189,6 +191,7 @@
             }
 			});
         }
+        <?php if(isset($_SESSION['email'])) { ?>
 
         function addToCart() {
             var courseId = getParameterByName('course');
@@ -249,7 +252,6 @@
         }
 
         function getCartCountItems(userId) {
-
             $.ajax({
             url: GLOBAL.url + "/getCartCountItems/" + userId,
             async: true,
@@ -265,7 +267,8 @@
             }
             });
         }
-        
+        <?php } ?>
+
     </script>
 
 </body>

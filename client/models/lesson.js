@@ -58,3 +58,68 @@ LessonTwo.prototype = {
         return html;
     }
 };
+
+var LessonPreview = function(id, title) {
+    this.id = id;
+    this.title = title;
+}
+
+LessonPreview.prototype = {
+    setId: function (id) {
+        this.id = id;
+    },
+    getHtml: function () {
+        var html = '<a class="lessonViewBtn" style="cursor: pointer;" id="' + this.id + '">';
+            html += '<div class="card content-course">';
+            html += '<div class="card-body col-12 video-seen">';
+            html += '<div class="row">';
+            html += '<div class="col-10">';
+            html += '<p>' + this.title + '<p>';
+            html += '</div>';
+            html += '<div class="col-2">';
+            html += '<input class="form-check-input" type="checkbox" value="" style="vertical-align: middle;">';
+            html += '</div>';
+            html += '</div>';
+            html += '</div>';
+            html += '</div>';
+            html += '</a>';
+        return html;
+    }
+};
+
+var LessonView = function(id, title, description, video, document) {
+    this.id = id;
+    this.title = title;
+    this.description = description;
+    this.video = video;
+    this.document = document;
+}
+
+LessonView.prototype = {
+    setId: function (id) {
+        this.id = id;
+    },
+    getHtml: function () {
+        var html = '<div class="col-12 title text-start">';
+            html += '<h3>' + this.title + '</h3>';
+            html += '<hr>';
+            html += '</div>';
+            if(this.video != null && this.video != "") {
+                html += '<h3>Video de la clase:</h3>'
+                html += '<video controls>';
+                html += '<source src="' + this.video + '" type="video/mp4">';
+                html += '</video>';
+            }
+            if(this.video != null && this.video != "" && this.document != null && this.document != "") {
+                html += '<hr>';
+            }
+            if(this.document != null && this.document != "") {
+                html += '<h3>Documento de la clase: </h3>'
+                html += '<a href="' + this.document + '" class="btn btn-primary" download="Documento">Descargar Archivo</a>';
+            }
+            html += '<hr>';
+            html += '<h5 class="fw-bold">Description:</h5>';
+            html += '<p>' + this.description + '</p>';
+        return html;
+    }
+};

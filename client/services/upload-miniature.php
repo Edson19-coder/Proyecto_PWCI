@@ -6,8 +6,9 @@ $foto = $_FILES["foto"]["name"];
 $id = $_POST["courseId"];
 
 if($foto) {
+    $rng = mt_rand(100, 2000);
     $ruta = $_FILES["foto"]["tmp_name"];
-    $destino = "../../api/src/previews/".$foto;
+    $destino = "../../api/src/previews/".$rng.$foto;
     move_uploaded_file($ruta, $destino);
 
     if($id) {
@@ -19,7 +20,7 @@ if($foto) {
         if (!$result) {
             echo "Problema al hacer un query: " . $db->error;								
         } else {
-            echo '{"message" : { "status": "200" , "text": "Usuario modificado satisfactoriamente." } }';
+            echo '{"message" : { "status": "200" , "text": "Curso modificado satisfactoriamente." } }';
         }
 
         $result = null;
