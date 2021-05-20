@@ -57,6 +57,7 @@ function validatePassword(password)
     {
         if(password.length >= 8)
         {
+            debugger
             var capitalLetter = false;
             var lowerCase = false;
             var number = false;

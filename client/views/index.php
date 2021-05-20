@@ -2,9 +2,6 @@
 <html lang="en">
 
 <head>
-<?php
-    date_default_timezone_set('America/Monterrey');
-?>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -36,7 +33,7 @@
         <div class="home welcome col-12">
             <div class="row" style="padding: 12px;">
                 <div class="col-12 col-xl-3" style="display: flex; justify-content: center; align-items: center;">
-                    <img src="<?php echo $_SESSION['profilePicture'] ?>" class="rounded-circle"
+                    <img src="https://mdbootstrap.com/img/Photos/Avatars/img (31).jpg" class="rounded-circle"
                         height="150px" alt="" loading="lazy" />
                 </div>
                 <div class="text-welcome col-12 col-xl-9" style="display: flex; align-items: center;">
@@ -131,7 +128,78 @@
 
         <div class="col-12 in-progress-learning" style="padding: 10px;">
 
-            <div id="newestSection" class="row" style="display: flex; justify-content:start;">
+            <div class="row" style="display: flex; justify-content:start;">
+
+                <a href="" class="a-course">
+                    <div class="card p-0" style="width: 18rem;">
+                        <img src="../src/image/angular.png"
+                            class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Desarrollando en Angular 10</h5>
+                            <p class="card-text">
+                                Utiliza Angular, ASP.NET Core, Entity Framework Core, Material Design, JWT, Leaflet, 
+                                para crear una aplicación completa
+                            </p>
+                            <p class="card-text" style="text-align: right;"><small class="cost">$1500 MX</small></p>
+                        </div>
+                        <div class="card-footer" style="text-align: right;">
+                            <a class="btn btn-primary add-cart" id="liveToastBtn">Add to cart</a>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="" class="a-course">
+                    <div class="card p-0" style="width: 18rem;"> 
+                        <img src="../src/image/inteligencia-artificial.png"
+                            class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Artificial Intelligence</h5>
+                            <p class="card-text">
+                                Combine the power of Data Science, Machine Learning and Deep
+                                Learning to create powerful AI for Real-World applications!
+                            </p>
+                            <p class="card-text" style="text-align: right;"><small class="cost">FREE</small></p>
+                        </div>
+                        <div class="card-footer" style="text-align: right;">
+                            <a class="btn btn-primary add-cart">Add to cart</a>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="" class="a-course">
+                    <div class="card p-0" style="width: 18rem;">
+                        <img src="../src/image/javascript.png"
+                            class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Aprende JavaScript y Jquery de 0 a 100</h5>
+                            <p class="card-text">
+                                Programación en JavaScript y Jquery de 0 a 100 para crear paginas web 
+                                aprende todo desde el inicio.
+                            </p>
+                            <p class="card-text" style="text-align: right;"><small class="cost">FREE</small></p>
+                        </div>
+                        <div class="card-footer" style="text-align: right;">
+                            <a class="btn btn-primary add-cart">Add to cart</a>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="" class="a-course">
+                    <div class="card p-0" style="width: 18rem;">
+                        <img src="../src/image/vue-firebase.png"
+                            class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Aprende Vue + Firebase ACTUALIZADO 2020</h5>
+                            <p class="card-text">
+                                Aprende todo lo necesario para ser un buen programador en Vue, 
+                                actualiza tus herramientas.
+                            </p>
+                            <p class="card-text" style="text-align: right;"><small class="cost">$1500 MX</small></p>
+                        </div>
+                        <div class="card-footer" style="text-align: right;">
+                            <a class="btn btn-primary add-cart">Add to cart</a>
+                        </div>
+                    </div>
             </div>
 
         </div>
@@ -152,60 +220,7 @@
     crossorigin="anonymous"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script src="js/notifications.js"></script>
-    <script src="../models/course.js"></script>
     <!-- /JS -->
-
-    <script type="module">
-        import { GLOBAL } from '../services/GLOBAL.js';
-
-        $(document).ready( () => {
-
-            getCourse();
-
-        });
-
-        function getCourse() {
-            $.ajax({
-                url: GLOBAL.url + "/getCoursesoLimit",
-                async: true,
-                type: 'GET',
-                dataType: 'json',
-                contentType: 'application/json; charset=utf-8',
-                success: function(cursos) {
-                    if(cursos.message) return null;
-                    for(let curso of cursos) {
-                        var cursoA = new CoursePreview(curso.id, curso.title, curso.shortDescription, curso.longDescription, curso.imageUrl, curso.price)
-                        $('#newestSection').append(cursoA.getHtml());
-                    }
-                },
-                error: function(x, y, z) {
-                    alert("Error en la api: " + x + y + z);				
-                }
-			});
-        }
-        
-        function getCategorires() {
-            $.ajax({
-                url: GLOBAL.url + "/getCategories",
-                async: true,
-                type: 'GET',
-                dataType: 'json',
-                contentType: 'application/json; charset=utf-8',
-                success: function(datos) {
-                    for(let dato of datos) {
-                        var category = new Category(dato.id, dato.categoryName, dato.createdAt)
-                        $('#InputCategory').append($('<option>', {
-                            value: category.id,
-                            text: category.name
-                        }));
-                    }
-                },
-                error: function(x, y, z) {
-                    alert("Error en la api: " + x + y + z);				
-                }
-            })
-        }
-    </script>
 </body>
 
 </html>

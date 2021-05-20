@@ -19,14 +19,6 @@
 
     //User routes
     require '../src/routes/user.php';
-    //Course routes
-    require '../src/routes/course.php';
-    //Category routes
-    require '../src/routes/category.php';
-    //Cart routes
-    require '../src/routes/cart.php';
-    //Lesson routes
-    require '../src/routes/lesson.php';
 
     // Run app
     $app->run();
