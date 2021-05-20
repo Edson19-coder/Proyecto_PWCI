@@ -40,27 +40,30 @@
                             </ul>
                         </div>
 
-                        <a href="" class="nav-link navbar-tool d-none d-lg-flex">My course</a>
-
+                        <?php if($_SESSION['accountType'] == 1) { ?>
+                        <a href="my-course.php" class="nav-link navbar-tool d-none d-lg-flex">My course</a>
+                        <?php } ?>
                         <a href="" class="nav-link navbar-tool d-none d-lg-flex">My learning</a>
 
-                        <a href="#" class="nav-link navbar-tool d-none d-lg-flex">
+                        <a href="cart.php" class="nav-link navbar-tool d-none d-lg-flex">
                             <i class="fas fa-shopping-cart">
-                                <span class="badge rounded-pill badge-notification bg-danger">1</span>
+                                <span id="cartCountItems" class="badge rounded-pill badge-notification bg-danger"></span>
                             </i>
                         </a>
 
                         <div class="dropdown navbar-tool">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="https://mdbootstrap.com/img/Photos/Avatars/img (31).jpg" class="rounded-circle"
+                                <img src="<?php echo $_SESSION['profilePicture'] ?>" class="rounded-circle"
                                     height="30" alt="" loading="lazy" />
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="settings.php"><span class="fas fa-user-circle"></span> Account</a>
                                 </li>
-                                <li><a class="dropdown-item" href="#"><span class="fas fa-credit-card"></span> Payment
-                                        options</a></li>
+                                <li><a class="dropdown-item" href="#"><span class="fas fa-credit-card"></span> Payment options</a></li>
+                                <?php if($_SESSION['accountType'] == 1) { ?>
+                                <li><a class="dropdown-item" href="create-course.php"><span class="fas fa-plus"></span> Create course</a></li>
+                                <?php } ?>
                                 <li><a class="dropdown-item" href="../services/logout.php"><span class="fas fa-sign-out-alt"></span> Logout</a>
                                 </li>
                             </ul>
@@ -77,9 +80,11 @@
                     </div>
                     <!-- Primary menu-->
                     <ul class="navbar-nav">
+                        <?php if($_SESSION['accountType'] == 1) { ?>
                         <li class="nav-item">
                             <a href="" class="nav-link">My course</a>
                         </li>
+                        <?php } ?>
                         <li class="nav-item">
                             <a href="" class="nav-link">My learning</a>
                         </li>
@@ -88,6 +93,34 @@
             </div>
         </div>
     </div>
+
+    <script type="module">
+         import { GLOBAL } from '../services/GLOBAL.js';
+
+        $(document).ready( () => {
+            
+            getCartCountItems(<?php echo $id = $_SESSION['id']; ?>);
+
+        });
+
+        function getCartCountItems(userId) {
+
+            $.ajax({
+            url: GLOBAL.url + "/getCartCountItems/" + userId,
+            async: true,
+			type: 'GET',
+			dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+			success: function(data) {
+                $('#cartCountItems').append(data.itemInCart);
+            },
+			error: function(x, y, z) {
+				alert("Error en la api: " + x + y + z);				
+            }
+			});
+        }
+    </script>
+
     <!-- /NAVBAR LOGIN-->
     <?php } else {?>
     <!-- NAVBAR NOT LOGIN-->

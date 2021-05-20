@@ -67,11 +67,13 @@
                                 *The password must be at least 8 characters including an uppercase, lowercase, number and space character
                             </span>
                         </div>
-                        <!-- <div class="mb-3">
-                            <label for="InputConfirmPasswordRegister" class="form-label">Confirm password</label>
-                            <input type="password" class="form-control" id="InputConfirmPasswordRegister">
-                            <span class="hide" id="span-confirm-password" style="color: red">*Confirm password is required</span>
-                        </div> -->
+                        <div class="mb-3">
+                            <label for="InputAccountType">Account type</label>
+                            <select class="form-control" id="InputAccountType">
+                                <option value="0">Student</option>
+                                <option value="1">Instructor</option>
+                            </select>
+                        </div>
                         <button type="submit" id="btn-sign-up" class="col-12 btn btn-primary" style="margin-bottom: 20px ;">Sign Up</button>
                         <a href="login.php" class="login-a" style="margin-top: 10px; color: black; text-decoration: none;">Log In</a>
                     </form>
@@ -106,7 +108,7 @@
                 event.preventDefault();
 
                 var user = new User($('#InputUserRegister').val(), $('#InputNameRegister').val(), $('#InputSecondNameRegister').val(), 
-                $('#InputLastNameRegister').val(), $('#InputEmailRegister').val(), $('#InputPasswordRegister').val());
+                $('#InputLastNameRegister').val(), $('#InputEmailRegister').val(), $('#InputPasswordRegister').val(), parseInt($('#InputAccountType').val()));
 
                 addUser(user);
             });
@@ -121,7 +123,8 @@
                 secondName: user.secondName,
                 lastName: user.lastName,
                 email: user.userEmail,
-                userPassword: user.userPassword
+                userPassword: user.userPassword,
+                accountType: user.accountType
             };
 
             var userDataJson = JSON.stringify(userData);
