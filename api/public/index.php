@@ -27,6 +27,10 @@
     require '../src/routes/cart.php';
     //Lesson routes
     require '../src/routes/lesson.php';
+    //Chat routes
+    require '../src/routes/chat.php';
+    //Comments routes
+    require '../src/routes/commentary.php';
 
     // Run app
     $app->run();

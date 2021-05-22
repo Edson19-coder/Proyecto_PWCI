@@ -7,7 +7,7 @@
                     <a href="index.php" class="navbar-brand fw-bold d-none-d-sm-block flex-shrink-0">Crealink Digital<span
                             class="text-primary">.</span></a>
                     <div class="input-group d-none d-lg-flex mx-4">
-                        <input type="text" class="form-control rounded-end" type="text" placeholder="Search for courses">
+                        <input type="text" id="searchBar" class="form-control rounded-end" type="text" placeholder="Search for courses">
                     </div>
                     <div class="navbar-toolbar d-flex flex-shrink-0 align-items-center">
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -20,21 +20,7 @@
                             </a>
                             <ul class="dropdown-menu categories" aria-labelledby="navbarDropdownMenuLink">
                                 <div class="row">
-                                    <div class="col-6">
-                                        <li><a class="dropdown-item" href="#">Action</a></li>
-                                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                        <li><a class="dropdown-item" href="#">Action</a></li>
-                                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                    </div>
-                                    <div class="col-6">
-                                        <li><a class="dropdown-item" href="#">Action</a></li>
-                                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                        <li><a class="dropdown-item" href="#">Action</a></li>
-                                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                    <div class="col-12" id="categoriasList">
                                     </div>
                                 </div>
                             </ul>
@@ -60,7 +46,7 @@
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="settings.php"><span class="fas fa-user-circle"></span> Account</a>
                                 </li>
-                                <li><a class="dropdown-item" href="#"><span class="fas fa-credit-card"></span> Payment options</a></li>
+                                <li><a class="dropdown-item" href="chat.php"><span class="fas fa-comment"></span> Chat</a></li>
                                 <?php if($_SESSION['accountType'] == 1) { ?>
                                 <li><a class="dropdown-item" href="create-course.php"><span class="fas fa-plus"></span> Create course</a></li>
                                 <?php } ?>
@@ -119,6 +105,8 @@
             }
 			});
         }
+
+        
     </script>
 
     <!-- /NAVBAR LOGIN-->
@@ -130,7 +118,7 @@
                 <a href="index.php" class="navbar-brand fw-bold d-none-d-sm-block flex-shrink-0">Crealink Digital<span
                         class="text-primary">.</span></a>
                 <div class="input-group d-none d-lg-flex mx-4">
-                    <input type="text" class="form-control rounded-end" type="text" placeholder="Search for courses">
+                    <input type="text" class="form-control rounded-end" type="text" id="searchBar" placeholder="Search for courses">
                 </div>
                 <div class="navbar-toolbar d-flex flex-shrink-0 align-items-center">
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -143,21 +131,7 @@
                         </a>
                         <ul class="dropdown-menu categories" aria-labelledby="navbarDropdownMenuLink">
                             <div class="row">
-                                <div class="col-6">
-                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                </div>
-                                <div class="col-6">
-                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                <div class="col-12" id="categoriasList">
                                 </div>
                             </div>
                         </ul>
@@ -189,5 +163,66 @@
             </div>
         </div>
     </div>
+    
     <!-- /NAVBAR NOT LOGIN -->
     <?php } ?>
+
+    <script type="module">
+         import { GLOBAL } from '../services/GLOBAL.js';
+
+        $(document).ready( () => {
+            
+            getCategorires();
+
+            $("#searchBar").keypress(function(e) {
+                if(e.which == 13) {
+                    var text = $("#searchBar").val();
+                    window.location.href="search.php?search=" + text;
+                }
+            });
+
+            $(document).on('click','.categorie-menu-item', function(){
+                var categorieId = $(this).val();
+                alert(categorieId);
+            })
+
+        });
+
+        function searchBySearchBar(txt) {
+            $.ajax({
+                url: GLOBAL.url + "/getCategories",
+                async: true,
+                type: 'GET',
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                success: function(datos) {
+                    for(let dato of datos) {
+                        $("#categoriasList").append('<li><a class="dropdown-item categorie-menu-item" style="cursor: pointer;" id="'+dato.id+'">' + dato.categoryName + '</a></li>');
+                    }
+
+                },
+                error: function(x, y, z) {
+                    alert("Error en la api: " + x + y + z);				
+                }
+            })
+        }
+
+        function getCategorires() {
+            $.ajax({
+                url: GLOBAL.url + "/getCategories",
+                async: true,
+                type: 'GET',
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                success: function(datos) {
+                    for(let dato of datos) {
+                        $("#categoriasList").append('<li><a class="dropdown-item" href="search.php?categorie='+dato.id+'" >' + dato.categoryName + '</a></li>');
+                    }
+
+                },
+                error: function(x, y, z) {
+                    alert("Error en la api: " + x + y + z);				
+                }
+            })
+        }
+    </script>

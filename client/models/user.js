@@ -34,3 +34,27 @@ User.prototype = {
         this.id = id;
     }
 };
+
+var UserPreviewMessage = function(id, userName, profilePicture) {
+    this.id = id;
+    this.userName = userName;
+    this.profilePicture = profilePicture; 
+};
+UserPreviewMessage.prototype = {
+    setId: function (id) {
+        this.id = id;
+    },
+    getHtml: function () {
+        var html = '<div id="' + this.id + '" class="card col-12 preview preview-message" style="padding: 8px; cursor: pointer;">';
+            html += '<div class="row">';
+            html += '<div class="col-2">';
+            html += '<img src="' + this.profilePicture + '" class="rounded-circle" height="50" alt="" loading="lazy" />';
+            html += '</div>';
+            html += '<div class="col-10 user_name">';
+            html += '<h5>' + this.userName + '</h5>';
+            html += '</div>';
+            html += '</div>';
+            html += '</div>';
+        return html;
+    }
+};
