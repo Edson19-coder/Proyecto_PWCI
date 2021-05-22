@@ -29,7 +29,7 @@
                         <?php if($_SESSION['accountType'] == 1) { ?>
                         <a href="my-course.php" class="nav-link navbar-tool d-none d-lg-flex">My course</a>
                         <?php } ?>
-                        <a href="" class="nav-link navbar-tool d-none d-lg-flex">My learning</a>
+                        <a href="my-learning.php" class="nav-link navbar-tool d-none d-lg-flex">My learning</a>
 
                         <a href="cart.php" class="nav-link navbar-tool d-none d-lg-flex">
                             <i class="fas fa-shopping-cart">

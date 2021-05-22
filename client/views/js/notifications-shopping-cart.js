@@ -1,5 +1,5 @@
 $(document).ready( () => {
-    $("#btn-check-out").on('click', checkOutSuccess);
+    //$("#btn-check-out").on('click', checkOutSuccess);
 })
 
 function checkOutSuccess() {

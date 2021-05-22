@@ -126,4 +126,29 @@
         }
 
     });
+
+    $app->get('/getCourseByPuchases/{userId}', function(Request $request, Response $response){
+        $userId = $request->getAttribute('userId');
+
+        if($userId) {
+            $courses = CourseController::getCourseByPuchases($userId);
+        
+            if($courses) {
+                echo json_encode($courses);
+            } else {
+                echo '{"message" : { "status": "200" , "text": "No hay cursos registrados." } }';
+            }
+        } else {
+            echo '{"message" : { "status": "400" , "text": "Bad Request" } }';
+        }
+
+    });
+
+    $app->post('/getPorcentaje', function(Request $request, Response $response){
+        if($request->getParam('courseId')){
+            CourseController::getPorcentaje($request->getParam('courseId'), $request->getParam('userId'));
+        }else{
+            echo '{"message" : { "status": "500" , "text": "No jala el server." } }';
+        }
+    });
 ?>

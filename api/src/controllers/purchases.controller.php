@@ -25,29 +25,28 @@
         }
 
         public static function getUserPurchases($userId){
-            $sql = "SELECT * FROM purchases WHERE '.$userId.' ORDER BY id";
+            $sql = "SELECT * FROM purchases WHERE id_user = ".$userId." ORDER BY id";
 
             try{
                 $db = new db();
                 $db = $db->connection();
                 $result = $db->query($sql);
 
-                if($result) {
-                    // Recorremos los resultados devueltos
-			        while( $amount = $result->fetch_assoc()) {
-                        return $amount;
-			        }
-                }else {
-                    echo json_encode("No en la BBDD.");
-                    return null;
+                if (!$result) {
+                    echo "Problema al hacer un query: " . $db->error;								
+                } else {
+                    $purchases  = array();
+                    while($p = $result->fetch_assoc()){
+                        $purchases[] = $p;
+                    }
+                    return $purchases;
                 }
-    
+
                 $result = null;
                 $db = null;
-    
             }catch(PDOException $e){
                 echo '{"error" : {"text":'.$e->getMessage().'} }';
-            }    
+            }
         }
 
         public static function deletePurchase($id){
