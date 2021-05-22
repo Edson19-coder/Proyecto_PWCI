@@ -65,7 +65,7 @@
         }
     });
 
-    $app->get('/getCoursesoLimit', function(Request $request, Response $response){
+    $app->get('/getCourseLimit', function(Request $request, Response $response){
         $courses = CourseController::getCourseLimit();
         
         if($courses) {
