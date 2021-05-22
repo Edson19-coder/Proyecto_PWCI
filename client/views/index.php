@@ -184,27 +184,6 @@
 			});
         }
         
-        function getCategorires() {
-            $.ajax({
-                url: GLOBAL.url + "/getCategories",
-                async: true,
-                type: 'GET',
-                dataType: 'json',
-                contentType: 'application/json; charset=utf-8',
-                success: function(datos) {
-                    for(let dato of datos) {
-                        var category = new Category(dato.id, dato.categoryName, dato.createdAt)
-                        $('#InputCategory').append($('<option>', {
-                            value: category.id,
-                            text: category.name
-                        }));
-                    }
-                },
-                error: function(x, y, z) {
-                    alert("Error en la api: " + x + y + z);				
-                }
-            })
-        }
     </script>
 </body>
 

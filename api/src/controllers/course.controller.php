@@ -223,6 +223,56 @@
                 echo '{"error" : {"text":'.$e->getMessage().'} }';
             }
         }
+
+        public static function getCourseSearch($text) {
+            $sql = "CALL `proc_search_bar`('".$text."');";
+
+            try{
+                $db = new db();
+                $db = $db->connection();
+                $result = $db->query($sql);
+
+                if (!$result) {
+                    echo "Problema al hacer un query: " . $db->error;								
+                } else {
+                    $cursos = array();
+                    while($curso = $result->fetch_assoc()){
+                        $cursos[] = $curso;
+                    }
+                    return $cursos;
+                }
+
+                $result = null;
+                $db = null;
+            }catch(PDOException $e){
+                echo '{"error" : {"text":'.$e->getMessage().'} }';
+            }
+        }
+
+        public static function getCourseByCategorieId($categorieId) {
+            $sql = "CALL `proc_search_categorie`(".$categorieId.");";
+
+            try{
+                $db = new db();
+                $db = $db->connection();
+                $result = $db->query($sql);
+
+                if (!$result) {
+                    echo "Problema al hacer un query: " . $db->error;								
+                } else {
+                    $cursos = array();
+                    while($curso = $result->fetch_assoc()){
+                        $cursos[] = $curso;
+                    }
+                    return $cursos;
+                }
+
+                $result = null;
+                $db = null;
+            }catch(PDOException $e){
+                echo '{"error" : {"text":'.$e->getMessage().'} }';
+            }
+        }
     }
 
 ?>

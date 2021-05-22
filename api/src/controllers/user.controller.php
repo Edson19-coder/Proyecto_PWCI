@@ -176,6 +176,34 @@
                 echo '{"error" : {"text":'.$e->getMessage().'} }';
             }
         }
+
+        public static function getFiveUsers($userId) {
+            $sql = "CALL `proc_get_top_users`('.$userId.');";
+    
+            try{
+                $db = new db();
+                $db = $db->connection();
+                $result = $db->query($sql);
+
+                if($result) {
+                    // Recorremos los resultados devueltos
+			        $users = array();
+			        while( $user = $result->fetch_assoc()) {
+				        $users[] = $user;
+			        }			
+			        return $users;
+                }else {
+                    echo json_encode("No existen usuarios en la BBDD.");
+                    return null;
+                }
+    
+                $result = null;
+                $db = null;
+    
+            }catch(PDOException $e){
+                echo '{"error" : {"text":'.$e->getMessage().'} }';
+            }
+        }
     }
 
 ?>

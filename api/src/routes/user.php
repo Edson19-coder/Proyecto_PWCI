@@ -113,4 +113,18 @@
             echo '{"message" : { "status": "500" , "text": "Sin usuarios registrados." } }';
         }
     });
+
+    $app->get('/getFiveUsers/{userId}', function(Request $request, Response $response){
+        $userId = $request->getAttribute('userId');
+
+        if($userId) {
+            $users = UserController::getFiveUsers($userId);
+            if($users != null) {
+                echo json_encode($users);
+            } else {
+                echo '{"message" : { "status": "500" , "text": "Sin usuarios registrados." } }';
+            }
+        }
+        
+    });
 ?>

@@ -92,4 +92,38 @@
         }
 
     });
+
+    $app->get('/getCourseSearch/{search}', function(Request $request, Response $response){
+        $text = $request->getAttribute('search');
+
+        if($text) {
+            $courses = CourseController::getCourseSearch($text);
+        
+            if($courses) {
+                echo json_encode($courses);
+            } else {
+                echo '{"message" : { "status": "200" , "text": "No hay cursos registrados." } }';
+            }
+        } else {
+            echo '{"message" : { "status": "400" , "text": "Bad Request" } }';
+        }
+
+    });
+
+    $app->get('/getCourseByCategorieId/{categorieId}', function(Request $request, Response $response){
+        $categorieId = $request->getAttribute('categorieId');
+
+        if($categorieId) {
+            $courses = CourseController::getCourseByCategorieId($categorieId);
+        
+            if($courses) {
+                echo json_encode($courses);
+            } else {
+                echo '{"message" : { "status": "200" , "text": "No hay cursos registrados." } }';
+            }
+        } else {
+            echo '{"message" : { "status": "400" , "text": "Bad Request" } }';
+        }
+
+    });
 ?>

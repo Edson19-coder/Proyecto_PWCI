@@ -42,6 +42,37 @@
                     <p id="longDescription"></p>
                 </div>
 
+                <div class="col-12">
+                    <h1 style="text-align: center;">Comments</h1>
+                    <div class="col-12 ">
+
+                        <div class="container global container-comments" style="padding: 10px 50px ">
+                            <h1 style="text-align: center;">There are no comments in this course</h1>
+                        </div>
+
+                        <!-- Create message -->
+                        <form action="">
+                            <div class="container">
+                                <div class="col-12" style="padding-top: 20px;">
+                                    <div class="col-12" style="padding: 10px; border-radius: 10px;">
+                                        <div class="row">
+                                            <div class="col-10">
+                                                <textarea class="form-control" id="textComment"
+                                                    placeholder="Comment on the course"></textarea>
+                                            </div>
+                                            <div class="col-2" style="text-align: center;">
+                                                <input type="button" value="Enviar" class="btn btn-primary publicar-btn"
+                                                    id="btnSendComment" style="line-height: 35px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <!-- /Create message -->
+
+                    </div>
+                </div>
             </div>
 
             <div class="col-md-4 seactions-course">
@@ -51,107 +82,165 @@
                     <hr>
                 </div>
 
-                <div id="lessonList"> 
+                <div id="lessonList">
                 </div>
             </div>
 
         </div>
+
     </div>
     <!-- /CONTENT -->
     <!-- JS -->
     <script src="js/bootstrap.min.js"></script>
     <script src="../models/course.js"></script>
     <script src="../models/lesson.js"></script>
+    <script src="../models/comment.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"
         integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
     <!-- /JS -->
 
     <script type="module">
-         import { GLOBAL } from '../services/GLOBAL.js';
+        import { GLOBAL } from '../services/GLOBAL.js';
 
-        $(document).ready( () => {
+        $(document).ready(() => {
 
             var courseId = getParameterByName('course');
             getCourseViewId(courseId);
             getLessonByCourse(courseId);
+            getComments(courseId);
 
-            $('#lessonList').on('click', '.lessonViewBtn', function() {
+            $('#lessonList').on('click', '.lessonViewBtn', function () {
                 var lessonId = $(this).attr('id');
                 getLessonById(lessonId);
             });
 
-        }); 
+            $('#btnSendComment').click( () => {
+                var textComment = $('#textComment').val();
+                createComment(textComment, <?php echo $id = $_SESSION['id']; ?>, courseId);
+                $('#textComment').val("");
+            })
+        });
 
         function getParameterByName(name) {
             name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
             var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-            results = regex.exec(location.search);
+                results = regex.exec(location.search);
             return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
         }
 
         function getCourseViewId(courseId) {
 
             $.ajax({
-            url: GLOBAL.url + "/getCourseById/" + courseId,
-            async: true,
-			type: 'POST',
-			dataType: 'json',
-            contentType: 'application/json; charset=utf-8',
-			success: function(course) {
-                $('#title').append(course.title);
-                $('#intructor').append(course.firstName + " " + course.lastNames);
-                $('#lastUpdate').append("Last update " + course.createdAt);
-                $('#shortDescription').append(course.shortDescription);
-                $('#longDescription').append(course.longDescription);             
-			},
-			error: function(x, y, z) {
-				alert("Error en la api: " + x + y + z);				
-            }
-			});
+                url: GLOBAL.url + "/getCourseById/" + courseId,
+                async: true,
+                type: 'POST',
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                success: function (course) {
+                    $('#title').append(course.title);
+                    $('#intructor').append(course.firstName + " " + course.lastNames);
+                    $('#lastUpdate').append("Last update " + course.createdAt);
+                    $('#shortDescription').append(course.shortDescription);
+                    $('#longDescription').append(course.longDescription);
+                },
+                error: function (x, y, z) {
+                    alert("Error en la api: " + x + y + z);
+                }
+            });
 
         }
 
         function getLessonByCourse(courseId) {
 
             $.ajax({
-            url: GLOBAL.url + "/getLessonsByCourseId/" + courseId,
-            async: true,
-			type: 'GET',
-			dataType: 'json',
-            contentType: 'application/json; charset=utf-8',
-			success: function(lessons) {
-                for(let less of lessons) {
-                    var lesson = new LessonPreview(less.id, less.title);
-                    $('#lessonList').append(lesson.getHtml());
+                url: GLOBAL.url + "/getLessonsByCourseId/" + courseId,
+                async: true,
+                type: 'GET',
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                success: function (lessons) {
+                    for (let less of lessons) {
+                        var lesson = new LessonPreview(less.id, less.title);
+                        $('#lessonList').append(lesson.getHtml());
+                    }
+                },
+                error: function (x, y, z) {
+                    alert("Error en la api: " + x + y + z);
                 }
-			},
-			error: function(x, y, z) {
-				alert("Error en la api: " + x + y + z);				
-            }
-			});
+            });
 
         }
-        
+
         function getLessonById(lessonId) {
             $.ajax({
-            url: GLOBAL.url + "/getLessonsView/" + lessonId,
+                url: GLOBAL.url + "/getLessonsView/" + lessonId,
+                async: true,
+                type: 'GET',
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                success: function (lesson) {
+                    var lesson = new LessonView(lesson.id, lesson.title, lesson.decription, lesson.video, lesson.doc);
+                    $('#content-view').empty();
+                    $('#content-view').append(lesson.getHtml());
+                    $('.description-course').remove();
+                },
+                error: function (x, y, z) {
+                    alert("Error en la api: " + x + y + z);
+                }
+            });
+        }
+
+        function getComments(courseId) {
+           
+            $.ajax({
+            url: GLOBAL.url + "/getCommentsByCourse/" + courseId,
             async: true,
 			type: 'GET',
 			dataType: 'json',
             contentType: 'application/json; charset=utf-8',
-			success: function(lesson) {
-                var lesson = new LessonView(lesson.id, lesson.title, lesson.decription, lesson.video, lesson.doc);
-                $('#content-view').empty();
-                $('#content-view').append(lesson.getHtml());
-                $('.description-course').remove();
-			},
+			success: function(data) {
+                $('.container-comments').empty();
+                if(data.message == undefined) { 
+                    data.forEach(element => {
+                        var com = new Commentary(element.txtCommentary, element.username, element.createdAt, element.emmiter, element.profilePicture);
+                        $('.container-comments').append(com.getHtml(<?php echo $id = $_SESSION['id']; ?>));
+                    });
+                } else {
+                    console.log(data);
+                }
+            },
 			error: function(x, y, z) {
 				alert("Error en la api: " + x + y + z);				
             }
 			});
         }
 
-        
+        function createComment(txtCommentary, emmiter, course) {
+            var commentaryData = {
+                txtCommentary: txtCommentary,
+                emmiter: parseInt(emmiter),
+                course: parseInt(course)
+            };
+
+            var commentaryDataJson = JSON.stringify(commentaryData);
+            
+            $.ajax({
+            url: GLOBAL.url + "/addCommentary",
+            async: true,
+			type: 'POST',
+            data: commentaryDataJson,
+			dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+			success: function(data) {
+                console.log(data);
+                getComments(course);
+            },
+			error: function(x, y, z) {
+				alert("Error en la api: " + x + y + z);				
+            }
+			});
+        }
+
     </script>
 </body>
 

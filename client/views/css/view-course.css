@@ -43,3 +43,9 @@ video {
 p > i {
     margin-right: 10px;
 }
+
+.global {
+	height: 470px;
+	width: auto;
+	overflow-y: scroll;
+}
