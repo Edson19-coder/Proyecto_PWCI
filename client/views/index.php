@@ -166,7 +166,7 @@
 
         function getCourse() {
             $.ajax({
-                url: GLOBAL.url + "/getCoursesoLimit",
+                url: GLOBAL.url + "/getCourseLimit",
                 async: true,
                 type: 'GET',
                 dataType: 'json',
