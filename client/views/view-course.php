@@ -84,6 +84,8 @@
 
                 <div id="lessonList">
                 </div>
+
+                <button type="button" id="btn-get-certificate" class="btn btn-primary" style="width: 100%; margin-top: 20px;">GET CERTIFICATE</button>
             </div>
 
         </div>
@@ -102,6 +104,8 @@
     <script type="module">
         import { GLOBAL } from '../services/GLOBAL.js';
 
+        var currentLesson;
+
         $(document).ready(() => {
 
             var courseId = getParameterByName('course');
@@ -110,14 +114,18 @@
             getComments(courseId);
 
             $('#lessonList').on('click', '.lessonViewBtn', function () {
-                var lessonId = $(this).attr('id');
-                getLessonById(lessonId);
+                currentLesson = $(this).attr('id');
+                getLessonById(currentLesson);
             });
 
             $('#btnSendComment').click( () => {
                 var textComment = $('#textComment').val();
                 createComment(textComment, <?php echo $id = $_SESSION['id']; ?>, courseId);
                 $('#textComment').val("");
+            });
+
+            $('#btn-get-certificate').click(() => {
+                window.location.href = "../services/DiplomaService/DiplomaGenerate.php?user=" + '<?php echo $id = $_SESSION['firstName']; ?>';
             })
         });
 
@@ -239,6 +247,10 @@
 				alert("Error en la api: " + x + y + z);				
             }
 			});
+        }
+
+        function sendView() {
+            
         }
 
     </script>

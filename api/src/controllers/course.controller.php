@@ -273,6 +273,54 @@
                 echo '{"error" : {"text":'.$e->getMessage().'} }';
             }
         }
+
+        public static function getCourseByPuchases($userId) {
+            $sql = "CALL `proc_get_purchases_courses`(".$userId.");";
+
+            try{
+                $db = new db();
+                $db = $db->connection();
+                $result = $db->query($sql);
+
+                if (!$result) {
+                    echo "Problema al hacer un query: " . $db->error;								
+                } else {
+                    $cursos = array();
+                    while($curso = $result->fetch_assoc()){
+                        $cursos[] = $curso;
+                    }
+                    return $cursos;
+                }
+
+                $result = null;
+                $db = null;
+            }catch(PDOException $e){
+                echo '{"error" : {"text":'.$e->getMessage().'} }';
+            }
+        }
+
+        public static function getPorcentaje($courseId, $userId) {
+            $sql = "CALL `lessonPercentage`(".$courseId.", ".$userId.");";
+
+            try{
+                $db = new db();
+                $db = $db->connection();
+                $result = $db->query($sql);
+
+                if (!$result) {
+                    echo "Problema al hacer un query: " . $db->error;								
+                } else {
+                    while($porcentaje = $result->fetch_assoc()){
+                        echo json_encode($porcentaje);
+                    }
+                }
+
+                $result = null;
+                $db = null;
+            }catch(PDOException $e){
+                echo '{"error" : {"text":'.$e->getMessage().'} }';
+            }
+        }
     }
 
 ?>

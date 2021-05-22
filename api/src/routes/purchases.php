@@ -15,7 +15,11 @@
 
     $app->get('/getUserPurchases/{idUser}', function(Request $request, Response $response) {
         if($request->getAttribute('idUser')){
-            $purchases = purchasesController::getUserPurchases($request->getParam('userId'));
+            $purchases = purchasesController::getUserPurchases($request->getAttribute('idUser'));
+            
+            if($purchases) {
+                echo json_encode($purchases);
+            }
         } else{
             echo '{"message" : { "status": "500" , "text": "No jala el server papu edson alv aiuda jefesita :´vVvvV." } }';
         }

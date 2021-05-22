@@ -77,7 +77,7 @@ LessonPreview.prototype = {
             html += '<p>' + this.title + '<p>';
             html += '</div>';
             html += '<div class="col-2">';
-            html += '<input class="form-check-input" type="checkbox" value="" style="vertical-align: middle;">';
+            html += '<input onclick="return false;" class="form-check-input lesson-see-check" type="checkbox" value="" style="vertical-align: middle;">';
             html += '</div>';
             html += '</div>';
             html += '</div>';
@@ -115,7 +115,7 @@ LessonView.prototype = {
             }
             if(this.document != null && this.document != "") {
                 html += '<h3>Documento de la clase: </h3>'
-                html += '<a href="' + this.document + '" class="btn btn-primary" download="Documento">Descargar Archivo</a>';
+                html += '<a href="' + this.document + '" class="btn btn-primary" style="color:white;" download="Documento">Descargar Archivo</a>';
             }
             html += '<hr>';
             html += '<h5 class="fw-bold">Description:</h5>';

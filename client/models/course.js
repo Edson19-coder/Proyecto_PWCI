@@ -79,6 +79,40 @@ CoursePreviewSmall.prototype = {
     }
 };
 
+var CourseMy = function(id, tituloCurso, tituloLesson, imageUrl, porcentaje) {
+    this.id = id;
+    this.tituloCurso = tituloCurso;
+    this.imageUrl = imageUrl;
+    this.porcentaje = porcentaje;
+    this.tituloLesson = tituloLesson;
+};
+
+CourseMy.prototype = {
+    setId: function (id) {
+        this.id = id;
+    },
+    getHtml: function () {
+        var html = '<a href="view-course.php?course='+ this.id +'">';
+            html += '<div class="card p-0" style="width: 18rem;">';
+            html += '<img src="' + this.imageUrl + '" class="card-img-top" alt="...">';
+            html += '<div class="card-body">';
+            html += '<p class="card-text">' + this.tituloCurso + '</p>'; 
+            if(this.tituloLesson != null){
+                html += '<h5 class="card-title">'+ this.tituloLesson +'</h5>'
+            } else {
+                html += '<h5 class="card-title"> Sin iniciar </h5>'
+            }
+            html += '<div class="progress">';
+            html += '<div class="progress-bar" role="progressbar" style="width: '+ this.porcentaje +'%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">'+ this.porcentaje +'%</div> </div>';
+            html += '</div>';
+            html += '<div class="card-footer" style="text-align: right;">';
+            html += '</div>';
+            html += '</div>';
+            html += '</a>';
+        return html;
+    }
+};
+
 var CoursePaymentDestination = function(cardNumber, expMonth, expYear, ccv, titular) {
     this.cardNumber = cardNumber;
     this.expMonth = expMonth;

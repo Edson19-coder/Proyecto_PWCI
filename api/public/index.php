@@ -31,6 +31,8 @@
     require '../src/routes/chat.php';
     //Comments routes
     require '../src/routes/commentary.php';
+    //Purchases routes
+    require '../src/routes/purchases.php';
 
     // Run app
     $app->run();

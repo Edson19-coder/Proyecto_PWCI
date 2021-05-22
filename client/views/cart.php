@@ -94,6 +94,8 @@
     <script type="module">
          import { GLOBAL } from '../services/GLOBAL.js';
 
+        var shoppingCart = [];
+
         $(document).ready( () => {
             
             $('#montoTotal').append("$0 MX");
@@ -104,6 +106,10 @@
                 var itemId = $(this).val();
                 deleteItem(itemId);
             })
+
+            $('#btn-check-out').click( () => {
+                addPurchases();
+            });
 
         });
 
@@ -117,7 +123,9 @@
             contentType: 'application/json; charset=utf-8',
 			success: function(data) {
                 var total = 0;
+                shoppingCart = [];
                 if(Array.isArray(data)) {
+                    shoppingCart = data;
                     data.forEach(element => {
                     var item = new PreviewItemCart(element.id, element.title, element.firstName + " " + element.lastNames, element.price, element.imageUrl);
                     total = total + parseInt(item.price);
@@ -168,6 +176,51 @@
             success: function(data) {
                 $('#cartCountItems').empty();
                 $('#cartCountItems').append(data.itemInCart);
+            },
+            error: function(x, y, z) {
+                alert("Error en la api: " + x + y + z);				
+            }
+            });
+        }
+
+        function addPurchases() {
+            console.log(shoppingCart);
+            shoppingCart.forEach(curso => {
+                
+                var purcharseData = {
+                    userId: <?php echo $id = $_SESSION['id']; ?>,
+                    courseId: curso.courseId
+                };
+
+                var purcharseDataJson = JSON.stringify(purcharseData);
+
+                $.ajax({
+                    url: GLOBAL.url + "/addPurchase",
+                    async: true,
+                    type: 'POST',
+                    data: purcharseDataJson,
+                    dataType: 'json',
+                    contentType: 'application/json; charset=utf-8',
+                    success: function(data) {
+                        console.log(data);
+                        deleteCart()
+                    },
+                    error: function(x, y, z) {
+                        alert("Error en la api: " + x + y + z);				
+                    }
+                });
+            });
+        }
+
+        function deleteCart() {
+            $.ajax({
+            url: GLOBAL.url + "/deleteCart/" + <?php echo $id = $_SESSION['id']; ?>,
+            async: true,
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            success: function(data) {
+                location.reload();
             },
             error: function(x, y, z) {
                 alert("Error en la api: " + x + y + z);				
