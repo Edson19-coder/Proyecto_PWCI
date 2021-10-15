@@ -90,7 +90,7 @@
                             success: function(porcentaje) {
                                 console.log(curso);
                                 console.log(porcentaje)
-                                var cursoA = new CourseMy(curso.id, curso.tituloCurso, curso.tituloLesson, curso.imageUrl, porcentaje.PV);
+                                var cursoA = new CourseMy(curso.id, curso.title, curso.imageUrl, porcentaje.PV);
                                 $('#courses').append(cursoA.getHtml());
                             },
                             error: function(x, y, z) {

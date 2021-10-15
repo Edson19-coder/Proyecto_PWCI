@@ -41,7 +41,11 @@ require_once 'C:/xampp/htdocs/projects/Proyecto_PWCI/api/src/config/db.php';
                     if (!$result) {
                         echo "Problema al hacer un query: " . $db->error;								
                     } else {
-                        echo '{"message" : { "status": "200" , "text": "Lección modificado satisfactoriamente." } }';
+                        $lessonViews = array();
+                        while($view = $result->fetch_assoc()){
+                            $lessonViews[] = $view;
+                        }
+                        return $lessonViews;
                     }
     
                     $result = null;

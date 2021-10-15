@@ -46,7 +46,7 @@
                         <?php if(isset($_SESSION['email'])) { ?>    
                         <div class="col-12">
                             <a id="addToCart" class="col-12 btn-shop btn btn-primary add-cart">Add to cart</a>
-                            <button type="button" class="col-12 btn-shop btn btn-primary" data-bs-toggle="modal"
+                            <button disabled type="button" class="col-12 btn-shop btn btn-primary" data-bs-toggle="modal"
                                 data-bs-target="#modalBuyNow">
                                 Buy now
                             </button>

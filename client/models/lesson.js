@@ -59,9 +59,10 @@ LessonTwo.prototype = {
     }
 };
 
-var LessonPreview = function(id, title) {
+var LessonPreview = function(id, title, isCheck) {
     this.id = id;
     this.title = title;
+    this.isCheck = isCheck;
 }
 
 LessonPreview.prototype = {
@@ -77,7 +78,6 @@ LessonPreview.prototype = {
             html += '<p>' + this.title + '<p>';
             html += '</div>';
             html += '<div class="col-2">';
-            html += '<input onclick="return false;" class="form-check-input lesson-see-check" type="checkbox" value="" style="vertical-align: middle;">';
             html += '</div>';
             html += '</div>';
             html += '</div>';

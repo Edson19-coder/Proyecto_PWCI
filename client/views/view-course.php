@@ -85,7 +85,7 @@
                 <div id="lessonList">
                 </div>
 
-                <button type="button" id="btn-get-certificate" class="btn btn-primary" style="width: 100%; margin-top: 20px;">GET CERTIFICATE</button>
+                <button type="button" id="btn-get-certificate" disabled class="btn btn-primary" style="width: 100%; margin-top: 20px;">GET CERTIFICATE</button>
             </div>
 
         </div>
@@ -105,16 +105,22 @@
         import { GLOBAL } from '../services/GLOBAL.js';
 
         var currentLesson;
+        var lessonsView = [];
 
         $(document).ready(() => {
 
             var courseId = getParameterByName('course');
             getCourseViewId(courseId);
+            getLessonView(courseId)
             getLessonByCourse(courseId);
             getComments(courseId);
-
+            getPorcentaje(courseId)
+            
             $('#lessonList').on('click', '.lessonViewBtn', function () {
                 currentLesson = $(this).attr('id');
+
+                sendView(courseId)
+
                 getLessonById(currentLesson);
             });
 
@@ -167,9 +173,11 @@
                 dataType: 'json',
                 contentType: 'application/json; charset=utf-8',
                 success: function (lessons) {
+                    $('#lessonList').empty();
+                    var isTrue = 0;
                     for (let less of lessons) {
-                        var lesson = new LessonPreview(less.id, less.title);
-                        $('#lessonList').append(lesson.getHtml());
+                    var lesson = new LessonPreview(less.id, less.title, isTrue);
+                    $('#lessonList').append(lesson.getHtml());
                     }
                 },
                 error: function (x, y, z) {
@@ -196,6 +204,33 @@
                     alert("Error en la api: " + x + y + z);
                 }
             });
+        }
+
+        function getLessonView(courseId) {
+            var data = {
+                courseId:  parseInt(courseId),
+                userId: <?php echo $id = $_SESSION['id']; ?>
+            };
+
+            var dataJson = JSON.stringify(data);
+
+            console.log(dataJson);
+            
+            $.ajax({
+            url: GLOBAL.url + "/selectLessonViewedByUserCourse",
+            async: true,
+			type: 'POST',
+            data: dataJson,
+			dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+			success: function(data) {
+                lessonsView = data;
+                console.log(lessonsView);
+            },
+			error: function(x, y, z) {
+				alert("Error en la api: " + x + y + z);				
+            }
+			});
         }
 
         function getComments(courseId) {
@@ -249,9 +284,59 @@
 			});
         }
 
-        function sendView() {
+        function sendView(courseId) {
+            var data = {
+                courseId:  parseInt(courseId),
+                userId: <?php echo $id = $_SESSION['id']; ?>,
+                lessonId: parseInt(currentLesson)
+            };
+
+            var dataJson = JSON.stringify(data);
+
+            console.log(dataJson);
             
+            $.ajax({
+            url: GLOBAL.url + "/addLessonViewed",
+            async: true,
+			type: 'POST',
+            data: dataJson,
+			dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+			success: function(data) {
+                console.log(data);
+            },
+			error: function(x, y, z) {
+				alert("Error en la api: " + x + y + z);				
+            }
+			});
+        
         }
+
+        function getPorcentaje(courseId) {
+                var data = {
+                            courseId: courseId,
+                            userId: <?php echo $_SESSION['id'] ?>
+                        };
+
+                var dataJson = JSON.stringify(data);
+                
+                $.ajax({
+                    url: GLOBAL.url + "/getPorcentaje",
+                    async: true,
+                    type: 'POST',
+                    data: dataJson,
+                    dataType: 'json',
+                    contentType: 'application/json; charset=utf-8',
+                    success: function(porcentaje) {
+                        if(parseInt(porcentaje.PV) >= 100) {
+                            $('#btn-get-certificate').prop("disabled", false);
+                        }
+                    },
+                    error: function(x, y, z) {
+                        alert("Error en la api: " + x + y + z);				
+                    }
+                });
+            }
 
     </script>
 </body>

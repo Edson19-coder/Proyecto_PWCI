@@ -59,61 +59,8 @@
 
         <div class="col-12 in-progress-learning" style="padding: 10px;">
 
-            <div class="row" style="display: flex; justify-content:start;">
+            <div class="row" id="inprogress" style="display: flex; justify-content:start;">
 
-                <a href="" class="a-course">
-                    <div class="card p-0" style="width: 18rem;">
-                        <img src="../src/image/php-curso.png"
-                            class="card-img-top" alt="">
-                        <div class="card-body">
-                            <p class="card-text">Curso de PHP basico.</p>
-                            <h5 class="card-title">1. Herramientas basicas.</h5>
-                            <div class="progress">
-                                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25"
-                                    aria-valuemin="0" aria-valuemax="100">25%</div>
-                            </div>
-                        </div>
-                        <div class="card-footer" style="text-align: right;">
-                            <p class="card-text"><small class="text-muted">30 mins</small></p>
-                        </div>
-                    </div>
-                </a>
-
-                <a href="" class="a-course">
-                    <div class="card p-0" style="width: 18rem;">
-                        <img src="../src/image/gestion-de-desarollo.png"
-                            class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <p class="card-text">Gestión y desarollo de proyec...</p> <!-- MAX CHARACTERS 32 -->
-                            <h5 class="card-title">4. Metodologia SCRUM.</h5> <!-- MAX CHARACTERS 22 -->
-                            <div class="progress">
-                                <div class="progress-bar" role="progressbar" style="width: 80%;" aria-valuenow="25"
-                                    aria-valuemin="0" aria-valuemax="100">80%</div>
-                            </div>
-                        </div>
-                        <div class="card-footer" style="text-align: right;">
-                            <p class="card-text"><small class="text-muted">10 mins</small></p>
-                        </div>
-                    </div>
-                </a>
-
-                <a href="" class="a-course">
-                    <div class="card p-0" style="width: 18rem;">
-                        <img src="../src/image/aprende-marketing-digital.png"
-                            class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <p class="card-text">Aprende Marketing Digital.</p>
-                            <h5 class="card-title">2. Google Ads.</h5>
-                            <div class="progress">
-                                <div class="progress-bar" role="progressbar" style="width: 50%;" aria-valuenow="25"
-                                    aria-valuemin="0" aria-valuemax="100">50%</div>
-                            </div>
-                        </div>
-                        <div class="card-footer" style="text-align: right;">
-                            <p class="card-text"><small class="text-muted">18 mins</small></p>
-                        </div>
-                    </div>
-                </a>
 
             </div>
 
@@ -161,6 +108,7 @@
         $(document).ready( () => {
 
             getCourse();
+            getMyCourse()
 
         });
 
@@ -176,6 +124,52 @@
                     for(let curso of cursos) {
                         var cursoA = new CoursePreview(curso.id, curso.title, curso.shortDescription, curso.longDescription, curso.imageUrl, curso.price)
                         $('#newestSection').append(cursoA.getHtml());
+                    }
+                },
+                error: function(x, y, z) {
+                    alert("Error en la api: " + x + y + z);				
+                }
+			});
+        }
+
+        function getMyCourse() {
+            $.ajax({
+                url: GLOBAL.url + "/getCourseByPuchases/" + <?php echo $_SESSION['id'] ?>,
+                async: true,
+                type: 'GET',
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                success: function(cursos) {
+
+                    if(cursos.message) return null;
+                    
+                    for(let curso of cursos) {
+                        
+                        var data = {
+                            courseId: curso.id,
+                            userId: <?php echo $_SESSION['id'] ?>
+                        };
+
+                        var dataJson = JSON.stringify(data);
+                        
+                        $.ajax({
+                            url: GLOBAL.url + "/getPorcentaje",
+                            async: true,
+                            type: 'POST',
+                            data: dataJson,
+			                dataType: 'json',
+                            contentType: 'application/json; charset=utf-8',
+                            success: function(porcentaje) {
+                                console.log(curso);
+                                console.log(porcentaje)
+                                var cursoA = new CourseMy(curso.id, curso.title, curso.imageUrl, porcentaje.PV);
+                                $('#inprogress').append(cursoA.getHtml());
+                            },
+                            error: function(x, y, z) {
+                                alert("Error en la api: " + x + y + z);				
+                            }
+			            });
+
                     }
                 },
                 error: function(x, y, z) {

@@ -275,7 +275,7 @@
         }
 
         public static function getCourseByPuchases($userId) {
-            $sql = "CALL `proc_get_purchases_courses`(".$userId.");";
+            $sql = "CALL `proc_get_purchasecourses`(".$userId.");";
 
             try{
                 $db = new db();
@@ -313,6 +313,31 @@
                     while($porcentaje = $result->fetch_assoc()){
                         echo json_encode($porcentaje);
                     }
+                }
+
+                $result = null;
+                $db = null;
+            }catch(PDOException $e){
+                echo '{"error" : {"text":'.$e->getMessage().'} }';
+            }
+        }
+
+        public static function getReport($userId) {
+            $sql = "CALL `proc_get_report`(".$userId.");";
+
+            try{
+                $db = new db();
+                $db = $db->connection();
+                $result = $db->query($sql);
+
+                if (!$result) {
+                    echo "Problema al hacer un query: " . $db->error;								
+                } else {
+                    $cursos = array();
+                    while($curso = $result->fetch_assoc()){
+                        $cursos[] = $curso;
+                    }
+                    return $cursos;
                 }
 
                 $result = null;

@@ -33,7 +33,9 @@
     require '../src/routes/commentary.php';
     //Purchases routes
     require '../src/routes/purchases.php';
-
+    //lesson-viewed routes
+    require '../src/routes/lesson-viewed.php';
+    
     // Run app
     $app->run();
 ?>

@@ -151,4 +151,21 @@
             echo '{"message" : { "status": "500" , "text": "No jala el server." } }';
         }
     });
+
+    $app->get('/getReport/{userId}', function(Request $request, Response $response){
+        $userId = $request->getAttribute('userId');
+
+        if($userId) {
+            $courses = CourseController::getReport($userId);
+        
+            if($courses) {
+                echo json_encode($courses);
+            } else {
+                echo '{"message" : { "status": "200" , "text": "No hay cursos registrados." } }';
+            }
+        } else {
+            echo '{"message" : { "status": "400" , "text": "Bad Request" } }';
+        }
+
+    });
 ?>

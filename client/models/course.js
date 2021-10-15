@@ -79,12 +79,11 @@ CoursePreviewSmall.prototype = {
     }
 };
 
-var CourseMy = function(id, tituloCurso, tituloLesson, imageUrl, porcentaje) {
+var CourseMy = function(id, tituloCurso, imageUrl, porcentaje) {
     this.id = id;
     this.tituloCurso = tituloCurso;
     this.imageUrl = imageUrl;
     this.porcentaje = porcentaje;
-    this.tituloLesson = tituloLesson;
 };
 
 CourseMy.prototype = {
@@ -92,16 +91,11 @@ CourseMy.prototype = {
         this.id = id;
     },
     getHtml: function () {
-        var html = '<a href="view-course.php?course='+ this.id +'">';
+        var html = '<a class="a-course" href="view-course.php?course='+ this.id +'">';
             html += '<div class="card p-0" style="width: 18rem;">';
             html += '<img src="' + this.imageUrl + '" class="card-img-top" alt="...">';
             html += '<div class="card-body">';
             html += '<p class="card-text">' + this.tituloCurso + '</p>'; 
-            if(this.tituloLesson != null){
-                html += '<h5 class="card-title">'+ this.tituloLesson +'</h5>'
-            } else {
-                html += '<h5 class="card-title"> Sin iniciar </h5>'
-            }
             html += '<div class="progress">';
             html += '<div class="progress-bar" role="progressbar" style="width: '+ this.porcentaje +'%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">'+ this.porcentaje +'%</div> </div>';
             html += '</div>';
@@ -113,10 +107,29 @@ CourseMy.prototype = {
     }
 };
 
-var CoursePaymentDestination = function(cardNumber, expMonth, expYear, ccv, titular) {
-    this.cardNumber = cardNumber;
-    this.expMonth = expMonth;
-    this.expYear = expYear;
-    this.ccv = ccv;
-    this.titular = titular;
+var CoursePreviewSmallC = function(title, inscritos, dinero) {
+    this.title = title;
+    this.inscritos = inscritos;
+    this.dinero = dinero;
+};
+
+CoursePreviewSmallC.prototype = {
+    setId: function (id) {
+        this.id = id;
+    },
+    getHtml: function () {
+        var html = '<a>';
+        html += '<div class="card p-0" style="width: 15rem;">';
+        html += '<div class="card-body">';
+        html += '<h5 class="card-title">'+ this.title +'</h5>';
+        html += '<h6 class="card-title" style="color:blue"> Personas inscritas:'+ this.inscritos +'</h6>';
+        html += '<h6 class="card-title" style="color:green"> Dinero recoudado: $'+ this.dinero +'</h6>';
+        html += '</div>';
+        html += '<div class="card-footer" style="text-align: right;">';
+        html += '<p class="card-text"><small class="text-muted"></small></p>';
+        html += '</div>';
+        html += '</div>';
+        html += '</a>';
+        return html;
+    }
 };
